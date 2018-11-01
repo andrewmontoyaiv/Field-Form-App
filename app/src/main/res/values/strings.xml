@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FieldFormApp</string>
+    <string name="title_activity_form_selector">form_selector</string>
+    <string name="title_activity_forms_list_nav">forms_list_nav</string>
+    <string name="title_home">Home</string>
+    <string name="title_forms">Forms</string>
+    <string name="title_reports">Reports</string>
+    <string name="title_settings">Settings</string>
+    <string name="temp_form_name">Sample Form Name</string>
+    <string name="temp_form_date">Sample Form Date</string>
+    <string name="todo">TODO</string>
+    <string name="temp_btn_AdamGUI">GUI Experiments</string>
 </resources>
