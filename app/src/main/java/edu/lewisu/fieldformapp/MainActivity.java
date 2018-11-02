@@ -48,6 +48,12 @@ public class MainActivity extends BaseActivity {
     public void guiLoad(View v)
     {
         Intent intent = new Intent(this, forms_list.class);
+        String tempAddress = sql.get();
+        intent.putExtra("SQLDB",tempAddress);
         startActivity(intent);
     }
+
+//    public SQLDatabase getSQLString() {
+//        return this.sql;
+//    }
 }
