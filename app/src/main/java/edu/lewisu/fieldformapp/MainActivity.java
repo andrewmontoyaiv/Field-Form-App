@@ -1,14 +1,13 @@
 package edu.lewisu.fieldformapp;
 
 import android.app.Dialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     EditText firstName,Address;
     SQLDatabase sql;

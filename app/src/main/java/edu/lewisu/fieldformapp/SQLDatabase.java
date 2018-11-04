@@ -45,9 +45,9 @@ public class SQLDatabase {
     SQLiteDatabase s;
 
     // constructor
-    public SQLDatabase(MainActivity mainActivity)
+    public SQLDatabase(BaseActivity baseActivity)
     {
-        c=mainActivity;
+        c=baseActivity;
     }
 
     // Database Handling
