@@ -4,7 +4,7 @@
 
 **Members:** Joshua Chesney, Hiren Soni
 - Database management, data handling, backend logic
-- Tools used: SQLite Database
+- Tools used: SQLite Database and Android Studio
 
 **Frontend Development**
 
