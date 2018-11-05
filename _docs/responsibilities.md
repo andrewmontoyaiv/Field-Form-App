@@ -2,12 +2,12 @@
 
 **Backend Development**
 
-**Members:** Joshua Chesney, Adam Zastresek
+**Members:** Joshua Chesney, Hiren Soni
 - Database management, data handling, backend logic
-- Tools used: MySQL, Excel, php
+- Tools used: SQLite Database
 
 **Frontend Development**
 
-**Members:** Hiren Soni, Andrew Montoya
+**Members:** Adam Zastresek, Andrew Montoya
 - GUI: UI/UX, frontend logic, app architecture/design,
-- Tools/Languages used: Java, XML, Android Studios, Android Framework, Balsamiq, Figma
+- Tools/Languages used: Java, XML, Android Studio, Android Framework, Balsamiq, Figma
