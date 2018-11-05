@@ -9,5 +9,5 @@
 **Frontend Development**
 
 **Members:** Adam Zastresek, Andrew Montoya
-- GUI: UI/UX, frontend logic, app architecture/design,
+- GUI: UI/UX, frontend logic, app architecture/design
 - Tools/Languages used: Java, XML, Android Studio, Android Framework, Balsamiq, Figma
