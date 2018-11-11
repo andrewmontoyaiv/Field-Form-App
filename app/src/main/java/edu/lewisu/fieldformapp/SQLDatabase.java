@@ -11,29 +11,29 @@ public class SQLDatabase {
     String table="user";
     int version=1;
 
-    String firstName="First Name";
-    String middleName="Middle Name";
-    String lastName="Last Name";
+    String FirstName="FirstName";
+    String MiddleName="MiddleName";
+    String LastName="LastName";
     String Address="Address";
     String City="City";
     String State="State";
-    String Zip="Zip Code";
+    String Zip="Zip";
     String County="County";
-    String dateOfBirth="Date Of Birth";
+    String DateOfBirth="DateOfBirth";
     String Gender="Gender";
     String Ethnicity="Ethnicity";
-    String SSNum="Social Security Number";
-    String phoneNum="Phone Number";
-    String email="Email Address";
-    String contactPref="Contact Preference";
-    String highSchool="High School";
-    String gradYear="High School Graduation Year";
-    String programOfInterest="Program of Interest";
-    String extraCurricularActivities="Extra Curricular Activities";
+    String SSNum="SSNum";
+    String PhoneNum="PhoneNum";
+    String Email="Email";
+    String ContactPref="ContactPref";
+    String HighSchool="HighSchool";
+    String GradYear="GradYear";
+    String ProgramOfInterest="ProgramOfInterest";
+    String ExtraCurricularActivities="ExtraCurricularActivities";
     String Hobbies="Hobbies";
     String Scholarships="Scholarships";
-    String finanAid="Financial Aid";
-    String medInfo="Medical Information";
+    String FinanAid="FinanAid";
+    String MedInfo="MedInfo";
     String Consent ="Consent";
     String id="id";
 
@@ -64,34 +64,34 @@ public class SQLDatabase {
     public void save(String fName, String mName, String ln, String add, String city,
                      String state, String zip, String county,
                      String DOB, String gender, String ethnicity, String SSN,
-                     String PhoneNum, String eMail, String ContactPref, String HighSchool,
-                     String GradYear, String ProgramOfInterest, String ExtraCurricularActivities,
+                     String phoneNum, String eMail, String contactPref, String highSchool,
+                     String gradYear, String programOfInterest, String extraCurricularActivities,
                      String hobbies, String scholarships,
-                     String FinanAid, String MedInfo, String consent) {
+                     String finanAid, String medInfo, String consent) {
         ContentValues cv=new ContentValues();
-        cv.put(firstName, fName);
-        cv.put(middleName, mName);
-        cv.put(lastName, ln);
+        cv.put(FirstName, fName);
+        cv.put(MiddleName, mName);
+        cv.put(LastName, ln);
         cv.put(Address, add);
         cv.put(City, city);
         cv.put(State, state);
         cv.put(Zip, zip);
         cv.put(County,county);
-        cv.put(dateOfBirth, DOB);
+        cv.put(DateOfBirth, DOB);
         cv.put(Gender, gender);
         cv.put(Ethnicity, ethnicity);
         cv.put(SSNum, SSN);
-        cv.put(phoneNum, PhoneNum);
-        cv.put(email, eMail);
-        cv.put(contactPref, ContactPref);
-        cv.put(highSchool, HighSchool);
-        cv.put(gradYear, GradYear);
-        cv.put(programOfInterest, ProgramOfInterest);
-        cv.put(extraCurricularActivities, ExtraCurricularActivities);
+        cv.put(PhoneNum, phoneNum);
+        cv.put(Email, eMail);
+        cv.put(ContactPref, contactPref);
+        cv.put(HighSchool, highSchool);
+        cv.put(GradYear, gradYear);
+        cv.put(ProgramOfInterest, programOfInterest);
+        cv.put(ExtraCurricularActivities, extraCurricularActivities);
         cv.put(Hobbies, hobbies);
         cv.put(Scholarships, scholarships);
-        cv.put(finanAid, FinanAid);
-        cv.put(medInfo, MedInfo);
+        cv.put(FinanAid, finanAid);
+        cv.put(MedInfo, medInfo);
         cv.put(Consent, consent);
         s.insert(table, null, cv);
     }
@@ -104,19 +104,19 @@ public class SQLDatabase {
         @Override
         public void onCreate(SQLiteDatabase arg0) {
             String query = "CREATE TABLE " + table + " ( " + id
-                    + " INTEGER PRIMARY KEY AUTOINCREMENT, " + firstName
-                    + "TEXT NOT NULL, " + middleName + "TEXT NOT NULL," + lastName + "TEXT NOT NULL," + Address + "TEXT NOT NULL,"
-                    + City + "TEXT NOT NULL," + State + "TEXT NOT NULL," + Zip + "TEXT NOT NULL,"
-                    + County + "TEXT NOT NULL," + dateOfBirth + "TEXT NOT NULL,"
-                    + Gender + "TEXT NOT NULL," + Ethnicity + "TEXT NOT NULL,"
-                    + SSNum + "TEXT NOT NULL," + phoneNum + "TEXT NOT NULL,"
-                    + email + "TEXT NOT NULL," + contactPref + "TEXT NOT NULL,"
-                    + highSchool + "TEXT NOT NULL," + gradYear + "TEXT NOT NULL,"
-                    + programOfInterest + "TEXT NOT NULL,"
-                    + extraCurricularActivities + "TEXT NOT NULL,"
-                    + Hobbies + "TEXT NOT NULL," + Scholarships + "TEXT NOT NULL,"
-                    + finanAid + "TEXT NOT NULL,"
-                    + medInfo + "TEXT NOT NULL," + Consent + "TEXT NOT NULL,);";
+                    + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FirstName
+                    + " TEXT NOT NULL, " + MiddleName + " TEXT NOT NULL," + LastName + " TEXT NOT NULL," + Address + " TEXT NOT NULL,"
+                    + City + " TEXT NOT NULL," + State + " TEXT NOT NULL," + Zip + " TEXT NOT NULL,"
+                    + County + " TEXT NOT NULL," + DateOfBirth + " TEXT NOT NULL,"
+                    + Gender + " TEXT NOT NULL," + Ethnicity + " TEXT NOT NULL,"
+                    + SSNum + " TEXT NOT NULL," + PhoneNum + " TEXT NOT NULL,"
+                    + Email + " TEXT NOT NULL," + ContactPref + " TEXT NOT NULL,"
+                    + HighSchool + " EXT NOT NULL," + GradYear + " TEXT NOT NULL,"
+                    + ProgramOfInterest + " TEXT NOT NULL,"
+                    + ExtraCurricularActivities + " TEXT NOT NULL,"
+                    + Hobbies + " TEXT NOT NULL," + Scholarships + " TEXT NOT NULL,"
+                    + FinanAid + " TEXT NOT NULL,"
+                    + MedInfo + " TEXT NOT NULL," + Consent + " TEXT NOT NULL );";
             arg0.execSQL(query);
 
         }
@@ -137,16 +137,20 @@ public class SQLDatabase {
         h = new helper(c);
         s = h.getReadableDatabase();
         String txt = "";
-        String[] col = { id, firstName, middleName, lastName, Address, City, State, Zip,
-                County, dateOfBirth, Gender, Ethnicity, SSNum, phoneNum, email,
-                contactPref, highSchool, gradYear, programOfInterest,
-                extraCurricularActivities, Hobbies, Scholarships, finanAid, medInfo, Consent};
+        String[] col = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
+                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
+                ContactPref, HighSchool, GradYear, ProgramOfInterest,
+                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
         Cursor c = s.query(table, col, null, null, null, null, null); //fetching data from database
         c.moveToFirst();
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 
             txt = txt + c.getString(0) + " " + c.getString(1) + " "
-                    + c.getString(2) + "\n";
+                    + c.getString(2) + " " + c.getString(3) + " " + c.getString(2) + " " + c.getString(2) + " " +
+            c.getString(4) + " " + c.getString(5) + " " + c.getString(6) + " " + c.getString(7) + " " + c.getString(8) + " " +
+            c.getString(9) + " " + c.getString(10) + " " + c.getString(11) + " " + c.getString(12) + " " + c.getString(13) + " " +
+            c.getString(14) + " " + c.getString(15) + " " + c.getString(16) + " " + c.getString(17) + " " + c.getString(18) + " " + c.getString(19) + " " +
+            c.getString(20) + " " + c.getString(21) + "\n";
 
         }
 
