@@ -1,15 +1,15 @@
 package edu.lewisu.fieldformapp;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+//import edu.lewisu.fieldformapp.ui.fragmentitemone.FragmentItemOneFragment;
 
 public class forms_list extends AppCompatActivity {
 
@@ -22,17 +22,25 @@ public class forms_list extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.navigation_forms:
                     mTextMessage.setText(R.string.title_home);
+                    selectedFragment = ItemOneFragment.newInstance();
                     return true;
                 case R.id.navigation_reports:
                     mTextMessage.setText(R.string.title_reports);
+                    selectedFragment = ItemOneFragment.newInstance();
                     return true;
                 case R.id.navigation_settings:
                     mTextMessage.setText(R.string.title_settings);
                     return true;
             }
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_layout2, selectedFragment);
+            transaction.commit();
+
+
             return false;
         }
     };
@@ -40,13 +48,19 @@ public class forms_list extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forms_list);
+        setContentView(R.layout.rem_activity_forms_list);
 
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation2);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout2, ItemOneFragment.newInstance());
+        transaction.commit();
+    }
+
+/*
         // Tests to use data from the SQL database
 
         Bundle b = getIntent().getExtras();
@@ -97,5 +111,6 @@ public class forms_list extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
     }
+*/
 
 }

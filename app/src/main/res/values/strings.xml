@@ -5,9 +5,14 @@
     <string name="title_home">Home</string>
     <string name="title_forms">Forms</string>
     <string name="title_reports">Reports</string>
-    <string name="title_settings">Settings</string>
+    <string name="title_settings">Troubleshooting Tools</string>
     <string name="temp_form_name">Sample Form Name</string>
     <string name="temp_form_date">Sample Form Date</string>
     <string name="todo">TODO</string>
     <string name="temp_btn_AdamGUI">GUI Experiments</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Fragment 1 - User can submit new records by using the default forms that will appear here</string>
+    <string name="hello_blank_fragment2">Fragment 2 - User can review previously entered forms on this page</string>
+    <string name="hello_blank_fragment3">Fragment 3 - Where settings will go.  Temporarily used for debugging tools</string>
 </resources>

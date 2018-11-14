@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 
 public class SQLDatabase {
     String database="db";
@@ -48,6 +49,11 @@ public class SQLDatabase {
     {
         c=baseActivity;
     }
+    // Alternative creator using MainActivity
+    public SQLDatabase(MainActivity mainActivity)
+    {
+        c = mainActivity;
+    }
 
     // Database Handling
     public void open()
@@ -61,6 +67,7 @@ public class SQLDatabase {
         s.close();
     }
 
+    // TODO Another method called edit should be created that allows for us to modify fields in a specific record
     public void save(String fName, String mName, String ln, String add, String city,
                      String state, String zip, String county,
                      String DOB, String gender, String ethnicity, String SSN,
@@ -128,10 +135,7 @@ public class SQLDatabase {
     }
 
 
-
-
-
-
+// TODO Should we have getters for specific fields?
     public String get()
     {
         h = new helper(c);
@@ -141,18 +145,59 @@ public class SQLDatabase {
                 County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
                 ContactPref, HighSchool, GradYear, ProgramOfInterest,
                 ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
+
+        // Testing code that looks to see if the table is empty before attempting to return values
+        boolean empty = true;
+        Cursor tempC = s.rawQuery("SELECT id FROM user", null);
+        if (tempC != null && tempC.moveToFirst()) {
+            empty = (tempC.getInt (0) == 0);
+        }
+        tempC.close();
+        if (empty)
+            return "No data available";
+
         Cursor c = s.query(table, col, null, null, null, null, null); //fetching data from database
         c.moveToFirst();
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 
-            txt = txt + c.getString(0) + " " + c.getString(1) + " "
-                    + c.getString(2) + " " + c.getString(3) + " " + c.getString(2) + " " + c.getString(2) + " " +
-            c.getString(4) + " " + c.getString(5) + " " + c.getString(6) + " " + c.getString(7) + " " + c.getString(8) + " " +
-            c.getString(9) + " " + c.getString(10) + " " + c.getString(11) + " " + c.getString(12) + " " + c.getString(13) + " " +
-            c.getString(14) + " " + c.getString(15) + " " + c.getString(16) + " " + c.getString(17) + " " + c.getString(18) + " " + c.getString(19) + " " +
-            c.getString(20) + " " + c.getString(21) + "\n";
+            txt = txt + c.getString(0) + " " + c.getString(1) + " " +
+                    c.getString(2) + " " + c.getString(3) + " " +
+                    c.getString(4) + " " + c.getString(5) + " " +
+                    c.getString(6) + " " + c.getString(7) + " " +
+                    c.getString(8) + " " + c.getString(9) + " " +
+                    c.getString(10) + " " + c.getString(11) + " " +
+                    c.getString(12) + " " + c.getString(13) + " " +
+                    c.getString(14) + " " + c.getString(15) + " " +
+                    c.getString(16) + " " + c.getString(17) + " " +
+                    c.getString(18) + " " + c.getString(19) + " " +
+                    c.getString(20) + " " + c.getString(21) + "\n";
+        }
+
+        c.close();
+
+        return txt;
+    }
+
+    // Test method to pull only certain fields from the table, used when using the Reports tab
+    public String[] getRowData() {
+        h = new helper(c);
+        s = h.getReadableDatabase();
+
+        String[]txt = {"","","",""};
+
+        String[] col = {id, FirstName, MiddleName, LastName};
+        Cursor c = s.query(table, col, null, null, null, null, null);
+        c.moveToFirst();
+
+        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+            txt[0] = txt[0] + "," + c.getString(0);
+            txt[1] = txt[1] + "," + c.getString(1);
+            txt[2] = txt[2] + "," + c.getString(2);
+            txt[3] = txt[3] + "," + c.getString(3);
 
         }
+
+        c.close();
 
         return txt;
     }
