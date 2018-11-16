@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
 
 public class SQLDatabase {
     String database="db";
@@ -45,11 +44,10 @@ public class SQLDatabase {
     SQLiteDatabase s;
 
     // constructor
-    public SQLDatabase(BaseActivity baseActivity)
+    public SQLDatabase(SQLHandler mainActivity)
     {
-        c=baseActivity;
+        c = mainActivity;
     }
-    // Alternative creator using MainActivity
     public SQLDatabase(MainActivity mainActivity)
     {
         c = mainActivity;

@@ -19,6 +19,10 @@
         <activity
             android:name=".forms_list"
             android:label="@string/title_activity_forms_list_nav" />
+        <activity
+            android:name=".FormDefault"
+            android:label=	"FormDefault"
+            />
     </application>
 
 </manifest>

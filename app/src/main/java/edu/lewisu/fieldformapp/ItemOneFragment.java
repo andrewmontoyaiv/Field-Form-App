@@ -1,12 +1,15 @@
 package edu.lewisu.fieldformapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -19,7 +22,7 @@ import android.view.ViewGroup;
  */
 
 // TODO Remove all unnecessary code - Only needs newInstance, onCreate, and onCreateView to start
-public class ItemOneFragment extends Fragment {
+public class ItemOneFragment extends Fragment implements View.OnClickListener{
 //    // TODO: Rename parameter arguments, choose names that match
 //    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 //    private static final String ARG_PARAM1 = "param1";
@@ -66,9 +69,34 @@ public class ItemOneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_one, container, false);
+        View v = inflater.inflate(R.layout.fragment_item_one, container, false);
+        FloatingActionButton createForm = (FloatingActionButton) v.findViewById(R.id.add_form);
+        createForm.setOnClickListener(this);
+
+        return v;
     }
+
+    // Handle Button Presses
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_form:
+                Intent intent = new Intent(getActivity(), FormDefault.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+
+//    public void createForm(View v) {
+//        Intent intent = new Intent(getActivity(), FormDefault.class);
+//        startActivity(intent);
+//    }
+
+
 }
+
+
 //    // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {
 //        if (mListener != null) {

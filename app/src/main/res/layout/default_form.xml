@@ -8,12 +8,10 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
         <!--app:layout_constraintTop_toBottomOf="@+id/btn_GUIExperiments">-->
 
@@ -27,192 +25,199 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="First Name" />
+                android:hint="First Name"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/mname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Middle Name" />
+                android:hint="Middle Name"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/lname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Last Name" />
+                android:hint="Last Name"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Address" />
+                android:hint="Address"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="City" />
+                android:hint="City"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="State" />
+                android:hint="State"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/zip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Zip" />
+                android:hint="Zip"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/county"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="County" />
+                android:hint="Country"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/dob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Date Of Birth" />
+                android:hint="Date OF Birth"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Gender" />
+                android:hint="Gender"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/ethnicity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Ethnicity" />
+                android:hint="Ethnicity"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/ssnum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Social Security" />
+                android:hint="Social Security"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/phoneNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Phone Number" />
+                android:hint="Phone Number"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Email" />
+                android:hint="Email"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/contactPref"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Contact Preference" />
+                android:hint="Contact Preference"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/highschool"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Highschool Name" />
+                android:hint="Highschool Name"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/gradYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Graduation Year" />
+                android:hint="Graduation Year"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/poi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Program Of Interest" />
+                android:hint="Program of Interest"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/eca"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Extracarricular Activities" />
+                android:hint="extracarricular Activities"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/hobbies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Hobbies" />
+                android:hint="Hobbies"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/scholarship"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Scholarship Info" />
+                android:hint="Scholarship Info"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/financialAid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Financial Aid Status" />
+                android:hint="Financial Aid Status"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/medInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Medical Info" />
+                android:hint="Medical Info"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/consent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textMultiLine"
-                android:text="Consent Status" />
+                android:hint="Consent Status"
+                android:inputType="textMultiLine" />
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="saveData"
+                android:text="Submit" />
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
