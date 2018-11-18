@@ -7,34 +7,34 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLDatabase {
-    String database="db";
+    private String database="db";
     String table="user";
-    int version=1;
+    private int version=1;
 
-    String FirstName="FirstName";
-    String MiddleName="MiddleName";
-    String LastName="LastName";
-    String Address="Address";
-    String City="City";
-    String State="State";
-    String Zip="Zip";
-    String County="County";
-    String DateOfBirth="DateOfBirth";
-    String Gender="Gender";
-    String Ethnicity="Ethnicity";
-    String SSNum="SSNum";
-    String PhoneNum="PhoneNum";
-    String Email="Email";
-    String ContactPref="ContactPref";
-    String HighSchool="HighSchool";
-    String GradYear="GradYear";
-    String ProgramOfInterest="ProgramOfInterest";
-    String ExtraCurricularActivities="ExtraCurricularActivities";
-    String Hobbies="Hobbies";
-    String Scholarships="Scholarships";
-    String FinanAid="FinanAid";
-    String MedInfo="MedInfo";
-    String Consent ="Consent";
+    private String FirstName="FirstName";
+    private String MiddleName="MiddleName";
+    private String LastName="LastName";
+    private String Address="Address";
+    private String City="City";
+    private String State="State";
+    private String Zip="Zip";
+    private String County="County";
+    private String DateOfBirth="DateOfBirth";
+    private String Gender="Gender";
+    private String Ethnicity="Ethnicity";
+    private String SSNum="SSNum";
+    private String PhoneNum="PhoneNum";
+    private String Email="Email";
+    private String ContactPref="ContactPref";
+    private String HighSchool="HighSchool";
+    private String GradYear="GradYear";
+    private String ProgramOfInterest="ProgramOfInterest";
+    private String ExtraCurricularActivities="ExtraCurricularActivities";
+    private String Hobbies="Hobbies";
+    private String Scholarships="Scholarships";
+    private String FinanAid="FinanAid";
+    private String MedInfo="MedInfo";
+    private String Consent ="Consent";
     String id="id";
 
 
@@ -44,28 +44,27 @@ public class SQLDatabase {
     SQLiteDatabase s;
 
     // constructor
-    public SQLDatabase(SQLHandler mainActivity)
+    SQLDatabase(SQLHandler mainActivity)
     {
         c = mainActivity;
     }
-    public SQLDatabase(MainActivity mainActivity)
+    SQLDatabase(MainActivity mainActivity)
     {
         c = mainActivity;
     }
 
     // Database Handling
-    public void open()
+    void open()
     {
         h=new helper(c);
         s=h.getWritableDatabase();
     }
 
-    public void close()
+    void close()
     {
         s.close();
     }
 
-    // TODO Another method called edit should be created that allows for us to modify fields in a specific record
     public void save(String fName, String mName, String ln, String add, String city,
                      String state, String zip, String county,
                      String DOB, String gender, String ethnicity, String SSN,
@@ -101,6 +100,22 @@ public class SQLDatabase {
         s.insert(table, null, cv);
     }
 
+    public void editRecord(String[] modifiedRecord) {
+        ContentValues cv = new ContentValues();
+        String[] colNames = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
+                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
+                ContactPref, HighSchool, GradYear, ProgramOfInterest,
+                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
+
+        for (int i = 1; i < 25; i++) {
+            cv.put(colNames[i], modifiedRecord[i]);
+        }
+
+        s.update(table, cv, String.format("%s = ?", "id"), new String[] {modifiedRecord[0]});
+//        s.update(table, cv, "id="+modifiedRecord[0], null);
+    }
+
+    // TODO Some of these field types within the query could be changed to other variables
     public class helper extends SQLiteOpenHelper {
         public helper(Context context) {
             super(context, database, null, version);
@@ -134,6 +149,7 @@ public class SQLDatabase {
 
 
 // TODO Should we have getters for specific fields?
+    // Tester method that returns all current records
     public String get()
     {
         h = new helper(c);
@@ -177,22 +193,62 @@ public class SQLDatabase {
     }
 
     // Test method to pull only certain fields from the table, used when using the Reports tab
-    public String[] getRowData() {
+    String[] getRowData() {
         h = new helper(c);
         s = h.getReadableDatabase();
 
-        String[]txt = {"","","",""};
+        String[] txt = {"","","",""};
+
+        boolean empty = true;
+        Cursor tempC = s.rawQuery("SELECT id FROM user", null);
+        if (tempC != null && tempC.moveToFirst()) {
+            empty = (tempC.getInt (0) == 0);
+        }
+        tempC.close();
+        if (empty) {
+            txt[0] = "null";
+            txt[1] = "null";
+            txt[2] = "null";
+            txt[3] = "null";
+            return txt;
+        }
 
         String[] col = {id, FirstName, MiddleName, LastName};
         Cursor c = s.query(table, col, null, null, null, null, null);
         c.moveToFirst();
 
+        // Remove statements as needed to return only required data
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            txt[0] = txt[0] + "," + c.getString(0);
-            txt[1] = txt[1] + "," + c.getString(1);
-            txt[2] = txt[2] + "," + c.getString(2);
-            txt[3] = txt[3] + "," + c.getString(3);
+            for (int i = 0; i < 4; i++){
+                txt[i] = txt[i] + "," + c.getString(i);
+            }
+        }
 
+        c.close();
+
+        return txt;
+    }
+
+    // Returns all data for single record
+    String[] getSingleRecord(int tempIndex) {
+        h = new helper(c);
+        s = h.getReadableDatabase();
+
+        String[]txt = new String[25];
+
+        String[] col = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
+                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
+                ContactPref, HighSchool, GradYear, ProgramOfInterest,
+                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
+
+        Cursor c = s.query(table, col, "id=" + tempIndex, null, null, null, null);
+//        c = s.rawQuery("SELECT " + col + " FROM " + table + " where id=" +tempIndex, null);
+        c.moveToFirst();
+
+        // Returns all values within the table for the selected row
+//        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+        for (int i = 0; i < 25; i++){
+            txt[i] = c.getString(i);
         }
 
         c.close();

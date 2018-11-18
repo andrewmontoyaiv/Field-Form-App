@@ -1,5 +1,6 @@
 package edu.lewisu.fieldformapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,7 +13,11 @@ import android.view.ViewGroup;
 public class ItemTwoFragment extends Fragment {
     private static MainActivity mainActivity;
     private RecyclerView rvFrag2;
-    private RowItemAdapter rowItemAdapter;
+    public RowItemAdapter rowItemAdapter;
+
+    private int openRecordID, openRecordIndex = -1;
+
+//    private String[] rowData;
 
     public static ItemTwoFragment newInstance(MainActivity activity) {
         ItemTwoFragment fragment = new ItemTwoFragment();
@@ -24,22 +29,11 @@ public class ItemTwoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-        //rvFrag2 = getView().findViewById(R.id.rvFormsFrag2);
-
         getRows(this.getView());
-
-        //((MainActivity)getActivity()).getRows(this.getView());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        rvFrag2 = (RecyclerView) inflater.inflate(R.id.rvFormsFrag2, container);
-//        getView().findViewById(R.id.rvFormsFrag2);
-//        return inflater.inflate(R.layout.fragment_item_two, container, false);
-
         View view = inflater.inflate(R.layout.fragment_item_two, container, false);
         rvFrag2 = (RecyclerView) view.findViewById(R.id.rvFormsFrag2);
 
@@ -49,8 +43,29 @@ public class ItemTwoFragment extends Fragment {
         return view;
     }
 
+
+    public void onResume() {
+        super.onResume();
+
+        // If statement that will only run if user has chosen to review a previous record
+        if (openRecordIndex != -1) {
+            updateRow();
+            rowItemAdapter.notifyItemChanged(openRecordIndex);
+            openRecordID = -1;
+            openRecordIndex = -1;
+        }
+    }
+
+    public void updateRow() {
+        String[] rowData = mainActivity.sql.getSingleRecord(openRecordID);
+        String[] rowDataSub = {rowData[0], rowData[1], rowData[2], rowData[3]};
+
+        rowItemAdapter.updateRow(rowDataSub, openRecordIndex);
+    }
+
     public void getRows(View v) {
         String[] rowData = mainActivity.getRowDataString();
+//        rowData = mainActivity.getRowDataString();
 
         String rowID, rowFN, rowMN, rowLN;
         String tempID, tempFN, tempMN, tempLN;
@@ -93,24 +108,23 @@ public class ItemTwoFragment extends Fragment {
                 rowItems[i-1] = new RowItemData(tempID, tempFN, tempMN, tempLN);
         }
 
-//        setContentView(v);
+        // Creates an anonymous click listener that will be used when the user presses the button.
+        rowItemAdapter = new RowItemAdapter(rowItems, new ClickListener() {
+            @Override public void onPositionClicked(int position) {
+                // callback performed on click
+                String[] tempStringArr = mainActivity.sql.getSingleRecord(position+1);
 
-//        RecyclerView recyclerView = (RecyclerView) mainActivity.rvFrag2;
-        // Code excecutes until this point
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        RowItemAdapter rowItemAdapter = new RowItemAdapter(rowItems);
-//        recyclerView.setAdapter(rowItemAdapter);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                openRecordID = Integer.parseInt(tempStringArr[0]);
+                openRecordIndex = position;
+                Intent intent = new Intent(getActivity(), FormDefault.class);
+                intent.putExtra("Record Data", tempStringArr);
+                startActivity(intent);
+            }
+            @Override public void onLongClicked(int position) {
+                // callback performed on click
+            }
+        });
 
-//        RowItemAdapter rowItemAdapter = new RowItemAdapter(rowItems);
-        rowItemAdapter = new RowItemAdapter(rowItems);
-//        rvFrag2.setAdapter(rowItemAdapter);
-
-
-//        rvFrag2.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//        rvFrag2.setItemAnimator(new DefaultItemAnimator());
-
-        // Reset ContentView to the main activity
-//        setContentView(R.layout.activity_main);
     }
+
 }

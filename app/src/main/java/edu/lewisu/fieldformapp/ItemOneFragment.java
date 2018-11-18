@@ -1,15 +1,12 @@
 package edu.lewisu.fieldformapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 /**
@@ -23,17 +20,6 @@ import android.widget.Button;
 
 // TODO Remove all unnecessary code - Only needs newInstance, onCreate, and onCreateView to start
 public class ItemOneFragment extends Fragment implements View.OnClickListener{
-//    // TODO: Rename parameter arguments, choose names that match
-//    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-//
-//    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
-
-//    private OnFragmentInteractionListener mListener;
-
     public ItemOneFragment() {
         // Required empty public constructor
     }
@@ -47,22 +33,14 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
      * //@return A new instance of fragment ItemOneFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ItemOneFragment newInstance() { //String param1, String param2) {
+    public static ItemOneFragment newInstance() {
         ItemOneFragment fragment = new ItemOneFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
@@ -86,14 +64,6 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
-
-
-//    public void createForm(View v) {
-//        Intent intent = new Intent(getActivity(), FormDefault.class);
-//        startActivity(intent);
-//    }
-
-
 }
 
 

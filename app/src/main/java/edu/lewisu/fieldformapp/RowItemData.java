@@ -1,5 +1,7 @@
 package edu.lewisu.fieldformapp;
 
+import android.view.View;
+
 public class RowItemData {
 
     private String rowID;
@@ -31,9 +33,11 @@ public class RowItemData {
     public void setFName(String tempFN) {
         rowFN = tempFN;
     }
-
+    public void setMName(String tempMN) { rowMN = tempMN; }
     public void setLName(String tempLN) {
         rowLN = tempLN;
     }
+
+    public void test(View v) {}
 }
 

@@ -1,15 +1,10 @@
 package edu.lewisu.fieldformapp;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +24,8 @@ public class SQLHandler extends AppCompatActivity {
             Gender, Ethnicity, SSNum, phoneNum, email, contactPref, highSchool,
             gradYear, programOfInterest, extraCurricularActivities, Hobbies,
             Scholarships, finanAid, medInfo, Consent;
+    TextView currID;
+
     SQLDatabase sql;
 
     @Override
@@ -38,6 +35,7 @@ public class SQLHandler extends AppCompatActivity {
 
 
     }
+
 
     // defined in the xml
     public void saveData(View v)
@@ -75,9 +73,69 @@ public class SQLHandler extends AppCompatActivity {
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
 
         finish();
-
     }
 
+    public void updateData(View v)
+    {
+        String[] modifiedRecord = new String [25];
+        modifiedRecord[0] = currID.getText().toString();
+        modifiedRecord[1] = firstName.getText().toString();
+        modifiedRecord[2] = middleName.getText().toString();
+        modifiedRecord[3] = lastName.getText().toString();
+        modifiedRecord[4] = Address.getText().toString();
+        modifiedRecord[5] = City.getText().toString();
+        modifiedRecord[6] = State.getText().toString();
+        modifiedRecord[7] = Zip.getText().toString();
+        modifiedRecord[8] = County.getText().toString();
+        modifiedRecord[9] = dateOfBirth.getText().toString();
+        modifiedRecord[10] = Gender.getText().toString();
+        modifiedRecord[11] = Ethnicity.getText().toString();
+        modifiedRecord[12] = SSNum.getText().toString();
+        modifiedRecord[13] = phoneNum.getText().toString();
+        modifiedRecord[14] = email.getText().toString();
+        modifiedRecord[15] = contactPref.getText().toString();
+        modifiedRecord[16] = highSchool.getText().toString();
+        modifiedRecord[17] = gradYear.getText().toString();
+        modifiedRecord[18] = programOfInterest.getText().toString();
+        modifiedRecord[19] = extraCurricularActivities.getText().toString();
+        modifiedRecord[20] = Hobbies.getText().toString();
+        modifiedRecord[21] = Scholarships.getText().toString();
+        modifiedRecord[22] = finanAid.getText().toString();
+        modifiedRecord[23] = medInfo.getText().toString();
+        modifiedRecord[24] = Consent.getText().toString();
+
+        sql.open();
+        sql.editRecord(modifiedRecord);
+        sql.close();
+        Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
 
 
+        finish();
+    }
+    public void openRecord(String[] recordData) {
+        firstName.setText(recordData[0]);
+        middleName.setText(recordData[1]);
+        lastName.setText(recordData[2]);
+        Address.setText(recordData[3]);
+        City.setText(recordData[4]);
+        State.setText(recordData[5]);
+        Zip.setText(recordData[6]);
+        County.setText(recordData[7]);
+        dateOfBirth.setText(recordData[8]);
+        Gender.setText(recordData[9]);
+        Ethnicity.setText(recordData[10]);
+        SSNum.setText(recordData[11]);
+        phoneNum.setText(recordData[12]);
+        email.setText(recordData[13]);
+        contactPref.setText(recordData[14]);
+        highSchool.setText(recordData[15]);
+        gradYear.setText(recordData[16]);
+        programOfInterest.setText(recordData[17]);
+        extraCurricularActivities.setText(recordData[18]);
+        Hobbies.setText(recordData[19]);
+        Scholarships.setText(recordData[20]);
+        finanAid.setText(recordData[21]);
+        medInfo.setText(recordData[22]);
+        Consent.setText(recordData[23]);
+    }
 }

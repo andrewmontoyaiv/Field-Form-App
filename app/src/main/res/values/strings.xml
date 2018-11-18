@@ -1,18 +1,45 @@
 <resources>
-    <string name="app_name">FieldFormApp</string>
-    <string name="title_activity_form_selector">form_selector</string>
-    <string name="title_activity_forms_list_nav">forms_list_nav</string>
-    <string name="title_home">Home</string>
-    <string name="title_forms">Forms</string>
-    <string name="title_reports">Reports</string>
-    <string name="title_settings">Troubleshooting Tools</string>
-    <string name="temp_form_name">Sample Form Name</string>
-    <string name="temp_form_date">Sample Form Date</string>
+    <string name="app_name">Lewis Field Form App</string>
+
+    <!-- Strings used for the navigation bar -->
+    <string name="nav_forms">Forms</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_settings">Troubleshooting Tools</string>
     <string name="todo">TODO</string>
-    <string name="temp_btn_AdamGUI">GUI Experiments</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Fragment 1 - User can submit new records by using the default forms that will appear here</string>
-    <string name="hello_blank_fragment2">Fragment 2 - User can review previously entered forms on this page</string>
+    <string name="hello_blank_fragment">Fragment 1 - User can submit new records by using the default forms that will appear here\nNeed to implement a recyclerView for various available forms for this page</string>
+    <string name="hello_blank_fragment2">Fragment 2 - User can review previously entered forms on this page\nNeed to finalize what values should be shown on this page</string>
     <string name="hello_blank_fragment3">Fragment 3 - Where settings will go.  Temporarily used for debugging tools</string>
+
+    <!-- Strings used for button labels -->
+    <string name="btn_submit">Submit Form</string>
+    <string name="btn_edit">Edit Record</string>
+    <string name="btn_update">Update Record</string>
+
+    <!-- Strings used on input form for text hints -->
+    <string name="txt_hint_mName">Middle Name</string>
+    <string name="txt_hint_lName">Last Name</string>
+    <string name="txt_hint_fName">First Name</string>
+    <string name="txt_hint_address">Address</string>
+    <string name="txt_hint_city">City</string>
+    <string name="txt_hint_state">State</string>
+    <string name="txt_hint_zip">Zip Code</string>
+    <string name="txt_hint_county">County</string>
+    <string name="txt_hint_dob">Date of Birth (MM.DD.YYYY)</string>
+    <string name="txt_hint_gender">Gender</string>
+    <string name="txt_hint_ethnicity">Ethnicity</string>
+    <string name="txt_hint_ssn">SSN</string>
+    <string name="txt_hint_phone">Phone Number</string>
+    <string name="txt_hint_email">Email Address</string>
+    <string name="txt_hint_contact">Contact Preference</string>
+    <string name="txt_hint_highschool">High School</string>
+    <string name="txt_hint_gradYear">Graduation Year</string>
+    <string name="txt_hint_poi">Program of Interest</string>
+    <string name="txt_hint_eca">Extra-Curricular Activities</string>
+    <string name="txt_hint_hobbies">Hobbies</string>
+    <string name="txt_hint_scholarships">Scholarships</string>
+    <string name="txt_hint_finanAid">Financial Aid</string>
+    <string name="txt_hint_medInfo">Medical Info</string>
+    <string name="txt_hint_consent">Consent</string>
 </resources>

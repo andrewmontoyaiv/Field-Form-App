@@ -1,7 +1,8 @@
 package edu.lewisu.fieldformapp;
 
 public class ItemData {
-
+    // TODO Implement this class.
+    // Used for the different available forms that are visible in fragment one
     private String formName;
     private String formDate;
 
@@ -10,7 +11,6 @@ public class ItemData {
         formDate = tempDate;
     }
 
-    // TODO Getters & Setters
     public String getName(){
         return formName;
     }
@@ -21,7 +21,6 @@ public class ItemData {
     public void setName(String tempName) {
         formName = tempName;
     }
-
     public void setDate(String tempDate) {
         formDate = tempDate;
     }

@@ -7,16 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".ItemOneFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/rvForms"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
-
-    <!--</android.support.v7.widget.RecyclerView>-->
-
+    <!-- TODO: Remove the helper text-->
 
     <TextView
         android:id="@+id/textView3"
@@ -28,13 +19,15 @@
         android:id="@+id/add_form"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@android:drawable/ic_menu_add"
-        android:onClick="launchFormBuilder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.912" />
+        app:layout_constraintVertical_bias="1.0"
+        android:focusable="true" />
+    <!--android:onClick="launchFormBuilder"-->
 
 </android.support.constraint.ConstraintLayout>

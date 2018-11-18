@@ -36,11 +36,11 @@ public class ItemThreeFragment extends Fragment {
 //        }
 //    };
 
-    private void generateData(View v) {
-        ((MainActivity)getActivity()).generateData(v);
-    }
-
-    private void view(View v) {
-        ((MainActivity)getActivity()).view(v);
-    }
+//    private void generateData(View v) {
+//        ((MainActivity)getActivity()).generateData(v);
+//    }
+//
+//    private void view(View v) {
+//        ((MainActivity)getActivity()).view(v);
+//    }
 }
