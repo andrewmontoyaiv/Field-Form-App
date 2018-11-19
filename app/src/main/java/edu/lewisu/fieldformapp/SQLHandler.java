@@ -1,8 +1,8 @@
 package edu.lewisu.fieldformapp;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +28,6 @@ public class SQLHandler extends AppCompatActivity {
 
     SQLDatabase sql;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +35,7 @@ public class SQLHandler extends AppCompatActivity {
 
 
     }
+
 
 
     // defined in the xml
@@ -65,6 +65,8 @@ public class SQLHandler extends AppCompatActivity {
         String FinanAid = finanAid.getText().toString();
         String MedInfo = medInfo.getText().toString();
         String consent = Consent.getText().toString();
+
+
         sql.open();
         sql.save(fName,mName, lName, add, city, state, zip, county, DOB, gender, ethnicity, SSN,
                 PhoneNum, eMail, ContactPref, HighSchool, GradYear,
@@ -75,6 +77,7 @@ public class SQLHandler extends AppCompatActivity {
 
         finish();
     }
+
 
     public void updateData(View v)
     {
@@ -105,8 +108,14 @@ public class SQLHandler extends AppCompatActivity {
         modifiedRecord[23] = medInfo.getText().toString();
         modifiedRecord[24] = Consent.getText().toString();
 
-
-
+        for(int i=0; i<25; i++)
+        {
+            if ((modifiedRecord[i].equals ("") || (modifiedRecord [i].equals (null))))
+            {
+                Toast.makeText(this, "Please fix all blank fields!!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         sql.open();
         sql.editRecord(modifiedRecord);
         sql.close();
@@ -115,8 +124,6 @@ public class SQLHandler extends AppCompatActivity {
 
         finish();
     }
-
-
     public void openRecord(String[] recordData) {
         firstName.setText(recordData[0]);
         middleName.setText(recordData[1]);
