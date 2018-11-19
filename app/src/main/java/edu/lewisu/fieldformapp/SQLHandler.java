@@ -28,6 +28,7 @@ public class SQLHandler extends AppCompatActivity {
 
     SQLDatabase sql;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +104,8 @@ public class SQLHandler extends AppCompatActivity {
         modifiedRecord[22] = finanAid.getText().toString();
         modifiedRecord[23] = medInfo.getText().toString();
         modifiedRecord[24] = Consent.getText().toString();
+
+
 
         sql.open();
         sql.editRecord(modifiedRecord);

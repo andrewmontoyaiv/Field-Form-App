@@ -47,6 +47,9 @@ public class ItemTwoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        // TODO: If deletion has occured, recreate the forms
+
+
         // If statement that will only run if user has chosen to review a previous record
         if (openRecordIndex != -1) {
             updateRow();
@@ -58,11 +61,13 @@ public class ItemTwoFragment extends Fragment {
 
     public void updateRow() {
         // TODO: validate if row is null
+        // check if exists
 
-        String[] rowData = mainActivity.sql.getSingleRecord(openRecordID);
-        String[] rowDataSub = {rowData[0], rowData[1], rowData[2], rowData[3]};
+            String[] rowData = mainActivity.sql.getSingleRecord(openRecordID);
+            String[] rowDataSub = {rowData[0], rowData[1], rowData[2], rowData[3]};
 
-        rowItemAdapter.updateRow(rowDataSub, openRecordIndex);
+            rowItemAdapter.updateRow(rowDataSub, openRecordIndex);
+
     }
 
     public void getRows(View v) {
@@ -114,13 +119,18 @@ public class ItemTwoFragment extends Fragment {
         rowItemAdapter = new RowItemAdapter(rowItems, new ClickListener() {
             @Override public void onPositionClicked(int position) {
                 // callback performed on click
+
+
                 String[] tempStringArr = mainActivity.sql.getSingleRecord(position+1);
 
                 openRecordID = Integer.parseInt(tempStringArr[0]);
                 openRecordIndex = position;
                 Intent intent = new Intent(getActivity(), FormDefault.class);
                 intent.putExtra("Record Data", tempStringArr);
-                intent.putExtra("Record ID", position);
+                // get record ID
+
+
+                intent.putExtra("Record ID",  openRecordID);
                 startActivity(intent);
             }
             @Override public void onLongClicked(int position) {

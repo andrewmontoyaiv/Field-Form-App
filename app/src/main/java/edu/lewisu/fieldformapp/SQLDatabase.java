@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 public class SQLDatabase {
     private String database="db";
@@ -151,18 +152,34 @@ public class SQLDatabase {
 
     }
 
-
-    // not used
-    public void deleteRecord(int id) {
+//   Does not work
+    public boolean doesIdExist(int IDVal) {
         h = new helper(c);
         s = h.getReadableDatabase();
 
-        String Query = "DELETE FROM " + table + " WHERE id" + "=" + "'" + id + "';";
+        Cursor tempC = s.rawQuery("SELECT * FROM " + table + " WHERE id" + "=" + "'" + IDVal + "';", null);
+//        Cursor tempC = s.rawQuery("select null where not exists (select *  from user where id=" + , null);
+        if (tempC == null) {
+            Log.v("RETURN:", "FALSE");
+            return false;
+        }
+        Log.v("RETURN:", "TRUE");
+
+        return true;
+    }
+
+    public void deleteRecord(int idVal) {
+        h = new helper(c);
+        s = h.getReadableDatabase();
+
+        String Query = "DELETE FROM " + table + " WHERE id" + "=" + "'" + idVal + "';";
 //        String Query = "DELETE FROM " + table + ";";
         s.execSQL(Query);
 
-        Log.e("ERROR", "deleting record");
+        Log.e("ERROR", "deleting record " + idVal);
     }
+
+
 
 
 // TODO Should we have getters for specific fields?

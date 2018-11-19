@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 public class FormDefault extends SQLHandler {
     Button btnSubmit, btnEdit, btnUpdate, btnDelete;
-    int positionInDB;
+    int ID;
     private static MainActivity mainActivity;
 
     @Override
@@ -61,13 +61,18 @@ public class FormDefault extends SQLHandler {
         if (extras != null) {
             String[] tempStr = extras.getStringArray("Record Data");
             openRecord(tempStr);
-            positionInDB = extras.getInt("Record ID");
+            ID = extras.getInt("Record ID");
         }
 
     }
 
     public void deleteData(View view) {
-        sql.deleteRecord(positionInDB);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            ID = extras.getInt("Record ID");
+        }
+
+        sql.deleteRecord(ID);
         finish();
     }
 
