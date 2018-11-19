@@ -112,6 +112,8 @@ public class SQLHandler extends AppCompatActivity {
 
         finish();
     }
+
+
     public void openRecord(String[] recordData) {
         firstName.setText(recordData[0]);
         middleName.setText(recordData[1]);

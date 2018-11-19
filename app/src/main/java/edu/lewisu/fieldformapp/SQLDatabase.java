@@ -5,12 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.view.View;
 
 public class SQLDatabase {
     private String database="db";
     String table="user";
     private int version=1;
 
+
+    // todo: add type of field as an entry in the database
     private String FirstName="FirstName";
     private String MiddleName="MiddleName";
     private String LastName="LastName";
@@ -145,6 +149,19 @@ public class SQLDatabase {
         public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
         }
 
+    }
+
+
+    // not used
+    public void deleteRecord(int id) {
+        h = new helper(c);
+        s = h.getReadableDatabase();
+
+        String Query = "DELETE FROM " + table + " WHERE id" + "=" + "'" + id + "';";
+//        String Query = "DELETE FROM " + table + ";";
+        s.execSQL(Query);
+
+        Log.e("ERROR", "deleting record");
     }
 
 

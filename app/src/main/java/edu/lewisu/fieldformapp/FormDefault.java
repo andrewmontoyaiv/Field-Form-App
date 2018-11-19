@@ -8,7 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class FormDefault extends SQLHandler {
-    Button btnSubmit, btnEdit, btnUpdate;
+    Button btnSubmit, btnEdit, btnUpdate, btnDelete;
+    int positionInDB;
+    private static MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,13 @@ public class FormDefault extends SQLHandler {
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnEdit = (Button) findViewById(R.id.btnEdit);
         btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        btnDelete = (Button) findViewById(R.id.btnDelete);
 
         // Hides buttons and textview that should not be used by users at this time
         currID.setVisibility(View.GONE);
         btnEdit.setVisibility(View.GONE);
         btnUpdate.setVisibility(View.GONE);
+        btnDelete.setVisibility(View.GONE);
 
         // If the form has been created with extras, the form will populate with the provided strings
         // This is used when opening a previous record for viewing/editing
@@ -57,8 +61,16 @@ public class FormDefault extends SQLHandler {
         if (extras != null) {
             String[] tempStr = extras.getStringArray("Record Data");
             openRecord(tempStr);
+            positionInDB = extras.getInt("Record ID");
         }
+
     }
+
+    public void deleteData(View view) {
+        sql.deleteRecord(positionInDB);
+        finish();
+    }
+
 
 
     public void openRecord(String[] recordData) {
@@ -124,8 +136,9 @@ public class FormDefault extends SQLHandler {
     public void editRecord(View v) {
         // Hide Edit button
         btnEdit.setVisibility(View.GONE);
-        // Make Update button visible
+        // Make Update and delete button visible
         btnUpdate.setVisibility(View.VISIBLE);
+        btnDelete.setVisibility(View.VISIBLE);
 
         // Enable selectable fields
         firstName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);

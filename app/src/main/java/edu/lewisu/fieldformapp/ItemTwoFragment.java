@@ -57,6 +57,8 @@ public class ItemTwoFragment extends Fragment {
     }
 
     public void updateRow() {
+        // TODO: validate if row is null
+
         String[] rowData = mainActivity.sql.getSingleRecord(openRecordID);
         String[] rowDataSub = {rowData[0], rowData[1], rowData[2], rowData[3]};
 
@@ -118,6 +120,7 @@ public class ItemTwoFragment extends Fragment {
                 openRecordIndex = position;
                 Intent intent = new Intent(getActivity(), FormDefault.class);
                 intent.putExtra("Record Data", tempStringArr);
+                intent.putExtra("Record ID", position);
                 startActivity(intent);
             }
             @Override public void onLongClicked(int position) {

@@ -457,6 +457,13 @@
                 android:onClick="updateData"
                 android:text="@string/btn_update" />
 
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="deleteData"
+                android:text="Delete" />
+
             <TextView
                 android:id="@+id/currID"
                 android:layout_width="match_parent"
