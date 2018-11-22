@@ -30,6 +30,7 @@ public class RowItemData {
         return rowLN;
     }
 
+    // No setter for ID as that cannot be changed manually
     public void setFName(String tempFN) {
         rowFN = tempFN;
     }

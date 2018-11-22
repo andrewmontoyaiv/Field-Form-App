@@ -4,50 +4,55 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 public class FormDefault extends SQLHandler {
     Button btnSubmit, btnEdit, btnUpdate, btnDelete;
     int ID;
-    private static MainActivity mainActivity;
+    String formType;
+//    private static MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_form);
 
-        firstName=(EditText)findViewById(R.id.fname);
-        middleName=(EditText)findViewById(R.id.mname);
-        lastName=(EditText)findViewById(R.id.lname);
-        Address=(EditText)findViewById(R.id.address);
-        City=(EditText)findViewById(R.id.city);
-        State=(EditText)findViewById(R.id.state);
-        Zip=(EditText)findViewById(R.id.zip);
-        County=(EditText)findViewById(R.id.county);
-        dateOfBirth=(EditText)findViewById(R.id.dob);
-        Gender=(EditText)findViewById(R.id.gender);
-        Ethnicity=(EditText)findViewById(R.id.ethnicity);
-        SSNum=(EditText)findViewById(R.id.ssnum);
-        phoneNum=(EditText)findViewById(R.id.phoneNum);
-        email=(EditText)findViewById(R.id.email);
-        contactPref=(EditText)findViewById(R.id.contactPref);
-        highSchool=(EditText)findViewById(R.id.highschool);
-        gradYear=(EditText)findViewById(R.id.gradYear);
-        programOfInterest=(EditText)findViewById(R.id.poi);
-        extraCurricularActivities=(EditText)findViewById(R.id.eca);
-        Hobbies=(EditText)findViewById(R.id.hobbies);
-        Scholarships=(EditText)findViewById(R.id.scholarship);
-        finanAid=(EditText)findViewById(R.id.financialAid);
-        medInfo=(EditText)findViewById(R.id.medInfo);
-        Consent=(EditText)findViewById(R.id.consent);
+        // Adjust names to match camelCase
+        firstName = findViewById(R.id.fName);
+        middleName = findViewById(R.id.mName);
+        lastName = findViewById(R.id.lName);
+        address = findViewById(R.id.address);
+        city = findViewById(R.id.city);
+        state = findViewById(R.id.state);
+        zip = findViewById(R.id.zip);
+        County= findViewById(R.id.county);
+        dateOfBirth= findViewById(R.id.dob);
+        gender = findViewById(R.id.gender);
+        ethnicity = findViewById(R.id.ethnicity);
+        ssnum = findViewById(R.id.ssnum);
+        phoneNum= findViewById(R.id.phoneNum);
+        email= findViewById(R.id.email);
+        contactPref= findViewById(R.id.contactPref);
+        highSchool= findViewById(R.id.highSchool);
+        gradYear= findViewById(R.id.gradYear);
+        programOfInterest= findViewById(R.id.poi);
+        extraCurricularActivities= findViewById(R.id.eca);
+        hobbies = findViewById(R.id.hobbies);
+        scholarship = findViewById(R.id.scholarship); //
+        finanAid= findViewById(R.id.financialAid); //
+        medInfo= findViewById(R.id.medInfo);
+        consent = findViewById(R.id.consent);
+        // TODO Add new fields here
 
-        currID = (TextView) findViewById(R.id.currID);
 
-        btnSubmit = (Button) findViewById(R.id.btnSubmit);
-        btnEdit = (Button) findViewById(R.id.btnEdit);
-        btnUpdate = (Button) findViewById(R.id.btnUpdate);
-        btnDelete = (Button) findViewById(R.id.btnDelete);
+        
+        // TextView that is hidden from the user at all times
+        currID = findViewById(R.id.currID);
+
+        // Buttons that appear as needed
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnEdit = findViewById(R.id.btnEdit);
+        btnUpdate = findViewById(R.id.btnUpdate);
+        btnDelete = findViewById(R.id.btnDelete);
 
         // Hides buttons and textview that should not be used by users at this time
         currID.setVisibility(View.GONE);
@@ -55,6 +60,9 @@ public class FormDefault extends SQLHandler {
         btnUpdate.setVisibility(View.GONE);
         btnDelete.setVisibility(View.GONE);
 
+
+
+        formType = "R";
         // If the form has been created with extras, the form will populate with the provided strings
         // This is used when opening a previous record for viewing/editing
         Bundle extras = getIntent().getExtras();
@@ -62,19 +70,34 @@ public class FormDefault extends SQLHandler {
             String[] tempStr = extras.getStringArray("Record Data");
             openRecord(tempStr);
             ID = extras.getInt("Record ID");
+            formType =  extras.getString("Form Type");
         }
 
-    }
 
-    public void deleteData(View view) {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            ID = extras.getInt("Record ID");
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        /// TODO For Hiren
+        //////////////////////////////////////////
+        if (formType.equals("R")) {
+            // Hide Healthcare only fields
+        } else if (formType.equals("H")) {
+            // Hide Recruiter only fields
+            scholarship.setVisibility(View.GONE);
         }
-
-        sql.deleteRecord(ID);
-        finish();
     }
+
+//    public void deleteData(View view) {
+//        Bundle extras = getIntent().getExtras();
+//        if (extras != null) {
+//            ID = extras.getInt("Record ID");
+//        }
+//
+//        super.itemTwoFrag.changeMade = 'D';
+//
+//        sql.deleteRecord(ID);
+//        finish();
+//    }
 
 
 
@@ -84,15 +107,15 @@ public class FormDefault extends SQLHandler {
         firstName.setText(recordData[1]);
         middleName.setText(recordData[2]);
         lastName.setText(recordData[3]);
-        Address.setText(recordData[4]);
-        City.setText(recordData[5]);
-        State.setText(recordData[6]);
-        Zip.setText(recordData[7]);
+        address.setText(recordData[4]);
+        city.setText(recordData[5]);
+        state.setText(recordData[6]);
+        zip.setText(recordData[7]);
         County.setText(recordData[8]);
         dateOfBirth.setText(recordData[9]);
-        Gender.setText(recordData[10]);
-        Ethnicity.setText(recordData[11]);
-        SSNum.setText(recordData[12]);
+        gender.setText(recordData[10]);
+        ethnicity.setText(recordData[11]);
+        ssnum.setText(recordData[12]);
         phoneNum.setText(recordData[13]);
         email.setText(recordData[14]);
         contactPref.setText(recordData[15]);
@@ -100,25 +123,30 @@ public class FormDefault extends SQLHandler {
         gradYear.setText(recordData[17]);
         programOfInterest.setText(recordData[18]);
         extraCurricularActivities.setText(recordData[19]);
-        Hobbies.setText(recordData[20]);
-        Scholarships.setText(recordData[21]);
+        hobbies.setText(recordData[20]);
+        scholarship.setText(recordData[21]);
         finanAid.setText(recordData[22]);
         medInfo.setText(recordData[23]);
-        Consent.setText(recordData[24]);
+        consent.setText(recordData[24]);
+
+        // if (recordData[25].equals("R") // College Recruiter
+
+
+        // if (recordData[25].equals("H") // Healthcare Professional
 
         // Disable selectable fields
         firstName.setKeyListener(null);
         middleName.setKeyListener(null);
         lastName.setKeyListener(null);
-        Address.setKeyListener(null);
-        City.setKeyListener(null);
-        State.setKeyListener(null);
-        Zip.setKeyListener(null);
+        address.setKeyListener(null);
+        city.setKeyListener(null);
+        state.setKeyListener(null);
+        zip.setKeyListener(null);
         County.setKeyListener(null);
         dateOfBirth.setKeyListener(null);
-        Gender.setKeyListener(null);
-        Ethnicity.setKeyListener(null);
-        SSNum.setKeyListener(null);
+        gender.setKeyListener(null);
+        ethnicity.setKeyListener(null);
+        ssnum.setKeyListener(null);
         phoneNum.setKeyListener(null);
         email.setKeyListener(null);
         contactPref.setKeyListener(null);
@@ -126,11 +154,11 @@ public class FormDefault extends SQLHandler {
         gradYear.setKeyListener(null);
         programOfInterest.setKeyListener(null);
         extraCurricularActivities.setKeyListener(null);
-        Hobbies.setKeyListener(null);
-        Scholarships.setKeyListener(null);
+        hobbies.setKeyListener(null);
+        scholarship.setKeyListener(null);
         finanAid.setKeyListener(null);
         medInfo.setKeyListener(null);
-        Consent.setKeyListener(null);
+        consent.setKeyListener(null);
 
         // Hide Submit button
         btnSubmit.setVisibility(View.GONE);
@@ -149,15 +177,15 @@ public class FormDefault extends SQLHandler {
         firstName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         middleName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         lastName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        Address.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        City.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        State.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        Zip.setInputType(InputType.TYPE_CLASS_NUMBER);
+        address.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        city.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        state.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
+        zip.setInputType(InputType.TYPE_CLASS_NUMBER);
         County.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
         dateOfBirth.setInputType(InputType.TYPE_CLASS_NUMBER);
-        Gender.setInputType(InputType.TYPE_CLASS_TEXT);
-        Ethnicity.setInputType(InputType.TYPE_CLASS_TEXT);
-        SSNum.setInputType(InputType.TYPE_CLASS_NUMBER);
+        gender.setInputType(InputType.TYPE_CLASS_TEXT);
+        ethnicity.setInputType(InputType.TYPE_CLASS_TEXT);
+        ssnum.setInputType(InputType.TYPE_CLASS_NUMBER);
         phoneNum.setInputType(InputType.TYPE_CLASS_PHONE);
         email.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         contactPref.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -165,10 +193,10 @@ public class FormDefault extends SQLHandler {
         gradYear.setInputType(InputType.TYPE_CLASS_NUMBER);
         programOfInterest.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         extraCurricularActivities.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        Hobbies.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        Scholarships.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        hobbies.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        scholarship.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         finanAid.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         medInfo.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        Consent.setInputType(InputType.TYPE_CLASS_TEXT);
+        consent.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 }

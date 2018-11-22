@@ -15,9 +15,9 @@ public class ItemTwoFragment extends Fragment {
     private RecyclerView rvFrag2;
     public RowItemAdapter rowItemAdapter;
 
-    private int openRecordID, openRecordIndex = -1;
+    // Variables used to track what changes have been made and where
+    private int openRecordID = -1, openRecordIndex = -1;
 
-//    private String[] rowData;
 
     public static ItemTwoFragment newInstance(MainActivity activity) {
         ItemTwoFragment fragment = new ItemTwoFragment();
@@ -35,7 +35,7 @@ public class ItemTwoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_two, container, false);
-        rvFrag2 = (RecyclerView) view.findViewById(R.id.rvFormsFrag2);
+        rvFrag2 = view.findViewById(R.id.rvFormsFrag2);
 
         rvFrag2.setLayoutManager(new LinearLayoutManager(this.getContext()));
         rvFrag2.setAdapter(rowItemAdapter);
@@ -47,16 +47,26 @@ public class ItemTwoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // TODO: If deletion has occured, recreate the forms
-
+        // TODO: If deletion has occurred, recreate the forms
+        // TODO add ability to track what type of change has been made.  Delete vs update
 
         // If statement that will only run if user has chosen to review a previous record
         if (openRecordIndex != -1) {
-            updateRow();
-            rowItemAdapter.notifyItemChanged(openRecordIndex);
+            if (!mainActivity.sql.doesIdExist(openRecordID)) {
+                deleteRow();
+            } else {
+                updateRow();
+            }
+
+            // Reset the change trackers
             openRecordID = -1;
             openRecordIndex = -1;
         }
+    }
+
+    public void deleteRow() {
+        rowItemAdapter.removeRow(openRecordIndex);
+        rowItemAdapter.notifyDataSetChanged();
     }
 
     public void updateRow() {
@@ -68,11 +78,11 @@ public class ItemTwoFragment extends Fragment {
 
             rowItemAdapter.updateRow(rowDataSub, openRecordIndex);
 
+            rowItemAdapter.notifyItemChanged(openRecordIndex);
     }
 
     public void getRows(View v) {
         String[] rowData = mainActivity.getRowDataString();
-//        rowData = mainActivity.getRowDataString();
 
         String rowID, rowFN, rowMN, rowLN;
         String tempID, tempFN, tempMN, tempLN;
@@ -88,15 +98,15 @@ public class ItemTwoFragment extends Fragment {
             if (rowData[0].charAt(i) == ',')
                 numRows++;
 
-        RowItemData[] rowItems = new RowItemData[numRows - 1];
+        final RowItemData[] rowItems = new RowItemData[numRows - 1];
 
         for (int i = 0; i < numRows; i++) {
-            if (rowID.indexOf(',') == -1) {
+            if (rowID.indexOf(',') == -1) { // If no commas exist, it just uses the full string
                 tempID = rowID;
                 tempFN = rowFN;
                 tempMN = rowMN;
                 tempLN = rowLN;
-            } else {
+            } else { // Creates a substring from the beginning until the first comma
                 tempID = rowID.substring(0, rowID.indexOf(','));
                 tempFN = rowFN.substring(0, rowFN.indexOf(','));
                 tempMN = rowMN.substring(0, rowMN.indexOf(','));
@@ -104,6 +114,7 @@ public class ItemTwoFragment extends Fragment {
             }
 
 
+            // Creates substring for all iterations except final
             if (i < (numRows - 1)) {
                 rowID = rowID.substring(rowID.indexOf(',') + 1);
                 rowFN = rowFN.substring(rowFN.indexOf(',') + 1);
@@ -111,8 +122,10 @@ public class ItemTwoFragment extends Fragment {
                 rowLN = rowLN.substring(rowLN.indexOf(',') + 1);
             }
 
-            if (i != 0)
-                rowItems[i-1] = new RowItemData(tempID, tempFN, tempMN, tempLN);
+            // Creates a new RowItemData for all iterations except the first (which is null/blank)
+            if (i != 0) {
+                rowItems[i - 1] = new RowItemData(tempID, tempFN, tempMN, tempLN);
+            }
         }
 
         // Creates an anonymous click listener that will be used when the user presses the button.
@@ -120,8 +133,9 @@ public class ItemTwoFragment extends Fragment {
             @Override public void onPositionClicked(int position) {
                 // callback performed on click
 
+                int rowIndex = rowItemAdapter.getRowID(position);
 
-                String[] tempStringArr = mainActivity.sql.getSingleRecord(position+1);
+                String[] tempStringArr = mainActivity.sql.getSingleRecord(rowIndex);
 
                 openRecordID = Integer.parseInt(tempStringArr[0]);
                 openRecordIndex = position;

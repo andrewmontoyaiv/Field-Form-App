@@ -14,8 +14,20 @@ public class SQLDatabase {
     String table="user";
     private int version=1;
 
+    // TODO - Prep code for form type, does not need to be enabled yet
 
-    // todo: add type of field as an entry in the database
+
+    // todo: add type of field as an entry in the database ---- This may not be required if we implement below
+    // todo: add required fields as an entry in database (based on order of fields on form)
+    //          This would allow for greater flexibility in forms as they can be customized more easily
+    //          EXAMPLE Required="YYYYYYYYYNYYNNNYYYYYN" OR "YYYYYYYYYYYYYYYYYYYYY"
+    //
+    //          Could implement types such as "TTTTTTTTRTTTTCTTTTNNNN"
+    //              T = EditText, R = Radio Button, C = Checkbox, N = Not Applicable
+    //          These could also be implemented as a secondary table to save space
+    // TODO: Add form type as an entry in database
+    //          EXAMPLE Type="R" (College recruiter) OR "H" (Health Professional)
+    //
     private String FirstName="FirstName";
     private String MiddleName="MiddleName";
     private String LastName="LastName";
@@ -70,38 +82,19 @@ public class SQLDatabase {
         s.close();
     }
 
-    public void save(String fName, String mName, String ln, String add, String city,
-                     String state, String zip, String county,
-                     String DOB, String gender, String ethnicity, String SSN,
-                     String phoneNum, String eMail, String contactPref, String highSchool,
-                     String gradYear, String programOfInterest, String extraCurricularActivities,
-                     String hobbies, String scholarships,
-                     String finanAid, String medInfo, String consent) {
+    // TODO Modify to accept a String array rather than 24 strings
+    public void save(String[] newRecord) {
+
         ContentValues cv=new ContentValues();
-        cv.put(FirstName, fName);
-        cv.put(MiddleName, mName);
-        cv.put(LastName, ln);
-        cv.put(Address, add);
-        cv.put(City, city);
-        cv.put(State, state);
-        cv.put(Zip, zip);
-        cv.put(County,county);
-        cv.put(DateOfBirth, DOB);
-        cv.put(Gender, gender);
-        cv.put(Ethnicity, ethnicity);
-        cv.put(SSNum, SSN);
-        cv.put(PhoneNum, phoneNum);
-        cv.put(Email, eMail);
-        cv.put(ContactPref, contactPref);
-        cv.put(HighSchool, highSchool);
-        cv.put(GradYear, gradYear);
-        cv.put(ProgramOfInterest, programOfInterest);
-        cv.put(ExtraCurricularActivities, extraCurricularActivities);
-        cv.put(Hobbies, hobbies);
-        cv.put(Scholarships, scholarships);
-        cv.put(FinanAid, finanAid);
-        cv.put(MedInfo, medInfo);
-        cv.put(Consent, consent);
+        String[] colNames = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
+                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
+                ContactPref, HighSchool, GradYear, ProgramOfInterest,
+                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
+
+        for (int i = 1; i < 25; i++) {
+            cv.put(colNames[i], newRecord[i]);
+        }
+
         s.insert(table, null, cv);
     }
 
@@ -157,15 +150,27 @@ public class SQLDatabase {
         h = new helper(c);
         s = h.getReadableDatabase();
 
-        Cursor tempC = s.rawQuery("SELECT * FROM " + table + " WHERE id" + "=" + "'" + IDVal + "';", null);
+        Boolean recordExists;
+//        String[] tempArr = {"id"};
+
+        // TODO- If using this command, the query can be tightened up since we only care about the ID value
+        // Alternative queries are commented out
+//        Cursor tempC = s.rawQuery("SELECT * FROM " + table + " WHERE id" + "=" + "'" + IDVal + "';", null);
 //        Cursor tempC = s.rawQuery("select null where not exists (select *  from user where id=" + , null);
-        if (tempC == null) {
+//        Cursor c = s.query(table, tempArr, "id=" + IDVal, null, null, null, null);
+        Cursor c = s.rawQuery("SELECT " + "id" + " FROM " + table + " where id=" +IDVal, null);
+
+        recordExists = c != null && c.moveToFirst();
+
+        c.close();
+
+        if (recordExists) {
+            Log.v("RETURN:", "TRUE");
+            return true;
+        } else {
             Log.v("RETURN:", "FALSE");
             return false;
         }
-        Log.v("RETURN:", "TRUE");
-
-        return true;
     }
 
     public void deleteRecord(int idVal) {
@@ -288,6 +293,15 @@ public class SQLDatabase {
         c.close();
 
         return txt;
+    }
+
+    int getHighestIndex() {
+        int tempIndex;
+        Cursor tempC = s.rawQuery("SELECT id FROM user", null);
+        tempC.moveToLast();
+        tempIndex = Integer.parseInt(tempC.getString(0));
+        tempC.close();
+        return tempIndex;
     }
 }
 

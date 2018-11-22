@@ -16,6 +16,7 @@
     <string name="btn_submit">Submit Form</string>
     <string name="btn_edit">Edit Record</string>
     <string name="btn_update">Update Record</string>
+    <string name="btn_delete">Delete Record</string>
 
     <!-- Strings used on input form for text hints -->
     <string name="txt_hint_mName">Middle Name</string>
@@ -42,4 +43,5 @@
     <string name="txt_hint_finanAid">Financial Aid</string>
     <string name="txt_hint_medInfo">Medical Info</string>
     <string name="txt_hint_consent">Consent</string>
+    <string name="rdbtn_gender_male">Male</string>
 </resources>

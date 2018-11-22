@@ -57,9 +57,23 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
     // Handle Button Presses
     @Override
     public void onClick(View v) {
+//        Intent intent;
+
         switch (v.getId()) {
             case R.id.add_form:
                 Intent intent = new Intent(getActivity(), FormDefault.class);
+                startActivity(intent);
+                break;
+            case R.id.button3:
+                intent = new Intent(getActivity(), FormDefault.class);
+
+                intent.putExtra("Form Type", "R");
+                startActivity(intent);
+                break;
+            case R.id.button4:
+                intent = new Intent(getActivity(), FormDefault.class);
+
+                intent.putExtra("Form Type", "H");
                 startActivity(intent);
                 break;
         }

@@ -10,14 +10,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHolder> {
-    private RowItemData[] rowItemData;
+    private ArrayList<RowItemData> rowItemList;
     private ClickListener listener;
-//    private View.OnClickListener onItemClickListener;
 
     RowItemAdapter(RowItemData[] rowItemData, ClickListener listener) {
-        this.rowItemData = rowItemData;
+        rowItemList = new ArrayList<>(rowItemData.length);
+        Collections.addAll(rowItemList, rowItemData);
+//        this.rowItemData = rowItemData;
         this.listener = listener;
     }
 
@@ -33,12 +37,12 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
-        viewHolder.txtViewID.setText(rowItemData[position].getID());
-        viewHolder.txtViewFN.setText(rowItemData[position].getFName());
-        viewHolder.txtViewMN.setText(rowItemData[position].getMName());
-        viewHolder.txtViewLN.setText(rowItemData[position].getLName());
+        viewHolder.txtViewID.setText(rowItemList.get(position).getID());
+        viewHolder.txtViewFN.setText(rowItemList.get(position).getFName());
+        viewHolder.txtViewMN.setText(rowItemList.get(position).getMName());
+        viewHolder.txtViewLN.setText(rowItemList.get(position).getLName());
 
-        viewHolder.posIndex = Integer.parseInt(rowItemData[position].getID());
+        viewHolder.posIndex = Integer.parseInt(rowItemList.get(position).getID());
     }
 
     // inner class to hold a reference to each item of RecyclerView
@@ -80,12 +84,22 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
     // Return the size of your itemsData (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return rowItemData.length;
+        return rowItemList.size();
     }
 
     void updateRow(String[] modifiedRecord, int position) {
-        rowItemData[position].setFName(modifiedRecord[1]);
-        rowItemData[position].setMName(modifiedRecord[2]);
-        rowItemData[position].setLName(modifiedRecord[3]);
+        rowItemList.get(position).setFName(modifiedRecord[1]);
+        rowItemList.get(position).setMName(modifiedRecord[2]);
+        rowItemList.get(position).setLName(modifiedRecord[3]);
+    }
+
+    int getRowID(int position) { return Integer.parseInt(rowItemList.get(position).getID()); }
+
+    void removeRow(int position) {
+        rowItemList.remove(position);
+    }
+
+    void addRow(RowItemData newRow) {
+        rowItemList.add(newRow);
     }
 }
