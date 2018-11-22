@@ -18,7 +18,8 @@ public class SQLHandler extends AppCompatActivity {
     String[] fieldNames = {"TcurrID", "TfName", "TmName", "TlName", "Taddress", "Tcity", "Tstate",
             "Tzip", "Tcounty", "Tdob", "Tgender", "Tethnicity", "Tssnum", "TphoneNum", "Temail",
             "TcontactPref", "ThighSchool", "TgradYear", "Tpoi", "Teca",
-            "Thobbies", "Tscholarship", "TfinancialAid", "TmedInfo", "Tconsent"};
+            "Thobbies", "Tscholarship", "TfinancialAid", "TmedInfo", "TMedication", "TAllergy",
+            "TImmunization", "dietaryRestriction", "TillnessHistory", "TdrugHistory", "Tconsent"};
 
     ItemOneFragment itemOneFrag;
     ItemTwoFragment itemTwoFrag;
@@ -31,7 +32,8 @@ public class SQLHandler extends AppCompatActivity {
     EditText firstName, middleName, lastName, address, city, state, zip, County, dateOfBirth,
             gender, ethnicity, ssnum, phoneNum, email, contactPref, highSchool,
             gradYear, programOfInterest, extraCurricularActivities, hobbies,
-            scholarship, finanAid, medInfo, consent;
+            scholarship, finanAid, medInfo, Medication, Allergy, Immunization,
+            dietaryRestriction, illnessHistory, drugHistory, consent;
     TextView currID;
 
     SQLDatabase sql;
@@ -79,7 +81,7 @@ public class SQLHandler extends AppCompatActivity {
 //                "contactPref", "highSchool", "gradYear", "programOfInterest", "extraCurricularActivities",
 //                "hobbies", "scholarship", "finanAid", "medInfo", "consent"};
 
-        String[] newRecord = new String [25];
+        String[] newRecord = new String [30];
         newRecord[0] = currID.getText().toString();
         newRecord[1] = firstName.getText().toString();
         newRecord[2] = middleName.getText().toString();
@@ -104,7 +106,13 @@ public class SQLHandler extends AppCompatActivity {
         newRecord[21] = scholarship.getText().toString();
         newRecord[22] = finanAid.getText().toString();
         newRecord[23] = medInfo.getText().toString();
-        newRecord[24] = consent.getText().toString();
+        newRecord[24] = Medication.getText().toString();
+        newRecord[25] = Allergy.getText().toString();
+        newRecord[26] = Immunization.getText().toString();
+        newRecord[27] = dietaryRestriction.getText().toString();
+        newRecord[28] = illnessHistory.getText().toString();
+        newRecord[29] = drugHistory.getText().toString();
+        newRecord[30] = consent.getText().toString();
 
         if (! validateFields(newRecord)) //,fieldNames))
             return;
@@ -211,7 +219,7 @@ public class SQLHandler extends AppCompatActivity {
 
     public void updateData(View v)
     {
-        String[] modifiedRecord = new String [25];
+        String[] modifiedRecord = new String [30];
         modifiedRecord[0] = currID.getText().toString();
         modifiedRecord[1] = firstName.getText().toString();
         modifiedRecord[2] = middleName.getText().toString();
@@ -236,7 +244,13 @@ public class SQLHandler extends AppCompatActivity {
         modifiedRecord[21] = scholarship.getText().toString();
         modifiedRecord[22] = finanAid.getText().toString();
         modifiedRecord[23] = medInfo.getText().toString();
-        modifiedRecord[24] = consent.getText().toString();
+        modifiedRecord[24] = Medication.getText().toString();
+        modifiedRecord[25] = Allergy.getText().toString();
+        modifiedRecord[26] = Immunization.getText().toString();
+        modifiedRecord[27] = dietaryRestriction.getText().toString();
+        modifiedRecord[28] = illnessHistory.getText().toString();
+        modifiedRecord[29] = drugHistory.getText().toString();
+        modifiedRecord[30] = consent.getText().toString();
 
         if (! validateFields(modifiedRecord))
             return;
