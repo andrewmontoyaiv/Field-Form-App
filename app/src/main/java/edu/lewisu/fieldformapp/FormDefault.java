@@ -40,6 +40,12 @@ public class FormDefault extends SQLHandler {
         scholarship = findViewById(R.id.scholarship); //
         finanAid= findViewById(R.id.financialAid); //
         medInfo= findViewById(R.id.medInfo);
+        Medication = findViewById(R.id.medication);
+        Allergy = findViewById(R.id.allergy);
+        Immunization = findViewById(R.id.immunization);
+        dietaryRestriction = findViewById(R.id.DietRestriction);
+        illnessHistory = findViewById(R.id.IllHistory);
+        drugHistory = findViewById(R.id.drgHistory);
         consent = findViewById(R.id.consent);
         // TODO Add new fields here
 
@@ -81,9 +87,22 @@ public class FormDefault extends SQLHandler {
         //////////////////////////////////////////
         if (formType.equals("R")) {
             // Hide Healthcare only fields
+            Medication.setVisibility(View.GONE); /// Adam or Andy look over these fields and make
+            Allergy.setVisibility(View.GONE); /// sure they make sense
+            dietaryRestriction.setVisibility(View.GONE);
+            illnessHistory.setVisibility(View.GONE);
+            drugHistory.setVisibility(View.GONE);
+
         } else if (formType.equals("H")) {
             // Hide Recruiter only fields
             scholarship.setVisibility(View.GONE);
+            finanAid.setVisibility(View.GONE);
+            ssnum.setVisibility(View.GONE);
+            highSchool.setVisibility(View.GONE);
+            gradYear.setVisibility(View.GONE);
+            programOfInterest.setVisibility(View.GONE);
+            extraCurricularActivities.setVisibility(View.GONE);
+            hobbies.setVisibility(View.GONE);
         }
     }
 
@@ -127,7 +146,13 @@ public class FormDefault extends SQLHandler {
         scholarship.setText(recordData[21]);
         finanAid.setText(recordData[22]);
         medInfo.setText(recordData[23]);
-        consent.setText(recordData[24]);
+        Medication.setText(recordData[24]);
+        Allergy.setText(recordData[25]);
+        Immunization.setText(recordData[26]);
+        dietaryRestriction.setText(recordData[27]);
+        illnessHistory.setText(recordData[28]);
+        drugHistory.setText(recordData[29]);
+        consent.setText(recordData[30]);
 
         // if (recordData[25].equals("R") // College Recruiter
 
@@ -158,6 +183,12 @@ public class FormDefault extends SQLHandler {
         scholarship.setKeyListener(null);
         finanAid.setKeyListener(null);
         medInfo.setKeyListener(null);
+        Medication.setKeyListener(null);
+        Allergy.setKeyListener(null);
+        Immunization.setKeyListener(null);
+        dietaryRestriction.setKeyListener(null);
+        illnessHistory.setKeyListener(null);
+        drugHistory.setKeyListener(null);
         consent.setKeyListener(null);
 
         // Hide Submit button
@@ -197,6 +228,12 @@ public class FormDefault extends SQLHandler {
         scholarship.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         finanAid.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         medInfo.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        Medication.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); /// Adam or Andy look over
+        Allergy.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); /// these fields and make
+        Immunization.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); /// sure they make sense
+        dietaryRestriction.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        illnessHistory.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        drugHistory.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         consent.setInputType(InputType.TYPE_CLASS_TEXT);
     }
 }
