@@ -13,21 +13,9 @@ public class SQLDatabase {
     private String database="db";
     String table="user";
     private int version=1;
+    private int numOfColumns = 32;
 
-    // TODO - Prep code for form type, does not need to be enabled yet
-
-
-    // todo: add type of field as an entry in the database ---- This may not be required if we implement below
-    // todo: add required fields as an entry in database (based on order of fields on form)
-    //          This would allow for greater flexibility in forms as they can be customized more easily
-    //          EXAMPLE Required="YYYYYYYYYNYYNNNYYYYYN" OR "YYYYYYYYYYYYYYYYYYYYY"
-    //
-    //          Could implement types such as "TTTTTTTTRTTTTCTTTTNNNN"
-    //              T = EditText, R = Radio Button, C = Checkbox, N = Not Applicable
-    //          These could also be implemented as a secondary table to save space
-    // TODO: Add form type as an entry in database
-    //          EXAMPLE Type="R" (College recruiter) OR "H" (Health Professional)
-    //
+    // TODO - Compound these into fewer statements
     private String FirstName="FirstName";
     private String MiddleName="MiddleName";
     private String LastName="LastName";
@@ -53,6 +41,18 @@ public class SQLDatabase {
     private String MedInfo="MedInfo";
     private String Consent ="Consent";
     String id="id";
+    private String FormType = "FormType";
+    private String Medication = "Medication";
+    private String Allergy = "Allergy";
+    private String Immunization = "Immunization";
+    private String DietaryRestriction = "DietaryRestriction";
+    private String IllnessHistory = "IllnessHistory";
+    private String DrugHistory = "DrugHistory";
+
+    private String[] columnNames = {id, FormType, FirstName, MiddleName, LastName, Address, City,
+            State, Zip, County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email, ContactPref,
+            HighSchool, GradYear, ProgramOfInterest, ExtraCurricularActivities, Hobbies, Scholarships,
+            FinanAid, MedInfo, Consent, Medication, Allergy, Immunization, DietaryRestriction, IllnessHistory, DrugHistory};
 
 
     helper h;
@@ -84,15 +84,14 @@ public class SQLDatabase {
 
     // TODO Modify to accept a String array rather than 24 strings
     public void save(String[] newRecord) {
-
         ContentValues cv=new ContentValues();
-        String[] colNames = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
-                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
-                ContactPref, HighSchool, GradYear, ProgramOfInterest,
-                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
 
-        for (int i = 1; i < 25; i++) {
-            cv.put(colNames[i], newRecord[i]);
+        // TODO modify loop to account for boolean
+        for (int i = 1; i < numOfColumns; i++) {
+            if (i == 25)
+                cv.put(columnNames[i], Boolean.parseBoolean(newRecord[i]));
+            else
+                cv.put(columnNames[i], newRecord[i]);
         }
 
         s.insert(table, null, cv);
@@ -100,17 +99,12 @@ public class SQLDatabase {
 
     public void editRecord(String[] modifiedRecord) {
         ContentValues cv = new ContentValues();
-        String[] colNames = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
-                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
-                ContactPref, HighSchool, GradYear, ProgramOfInterest,
-                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
 
-        for (int i = 1; i < 25; i++) {
-            cv.put(colNames[i], modifiedRecord[i]);
+        for (int i = 1; i < numOfColumns; i++) {
+            cv.put(columnNames[i], modifiedRecord[i]);
         }
 
         s.update(table, cv, String.format("%s = ?", "id"), new String[] {modifiedRecord[0]});
-//        s.update(table, cv, "id="+modifiedRecord[0], null);
     }
 
     // TODO Some of these field types within the query could be changed to other variables
@@ -121,20 +115,56 @@ public class SQLDatabase {
 
         @Override
         public void onCreate(SQLiteDatabase arg0) {
-            String query = "CREATE TABLE " + table + " ( " + id
-                    + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FirstName
-                    + " TEXT NOT NULL, " + MiddleName + " TEXT NOT NULL," + LastName + " TEXT NOT NULL," + Address + " TEXT NOT NULL,"
-                    + City + " TEXT NOT NULL," + State + " TEXT NOT NULL," + Zip + " TEXT NOT NULL,"
-                    + County + " TEXT NOT NULL," + DateOfBirth + " TEXT NOT NULL,"
-                    + Gender + " TEXT NOT NULL," + Ethnicity + " TEXT NOT NULL,"
-                    + SSNum + " TEXT NOT NULL," + PhoneNum + " TEXT NOT NULL,"
-                    + Email + " TEXT NOT NULL," + ContactPref + " TEXT NOT NULL,"
-                    + HighSchool + " EXT NOT NULL," + GradYear + " TEXT NOT NULL,"
-                    + ProgramOfInterest + " TEXT NOT NULL,"
-                    + ExtraCurricularActivities + " TEXT NOT NULL,"
-                    + Hobbies + " TEXT NOT NULL," + Scholarships + " TEXT NOT NULL,"
-                    + FinanAid + " TEXT NOT NULL,"
-                    + MedInfo + " TEXT NOT NULL," + Consent + " TEXT NOT NULL );";
+            // Original Query
+//            String query = "CREATE TABLE " + table + " ( " + id
+//                    + " INTEGER PRIMARY KEY AUTOINCREMENT, " + FirstName
+//                    + " TEXT NOT NULL, " + MiddleName + " TEXT NOT NULL," + LastName + " TEXT NOT NULL," + Address + " TEXT NOT NULL,"
+//                    + City + " TEXT NOT NULL," + State + " TEXT NOT NULL," + Zip + " TEXT NOT NULL,"
+//                    + County + " TEXT NOT NULL," + DateOfBirth + " TEXT NOT NULL,"
+//                    + Gender + " TEXT NOT NULL," + Ethnicity + " TEXT NOT NULL,"
+//                    + SSNum + " TEXT NOT NULL," + PhoneNum + " TEXT NOT NULL,"
+//                    + Email + " TEXT NOT NULL," + ContactPref + " TEXT NOT NULL,"
+//                    + HighSchool + " EXT NOT NULL," + GradYear + " TEXT NOT NULL,"
+//                    + ProgramOfInterest + " TEXT NOT NULL,"
+//                    + ExtraCurricularActivities + " TEXT NOT NULL,"
+//                    + Hobbies + " TEXT NOT NULL," + Scholarships + " TEXT NOT NULL,"
+//                    + FinanAid + " TEXT NOT NULL,"
+//                    + MedInfo + " TEXT NOT NULL," + Consent + " TEXT NOT NULL );";
+
+            // Expanded Query with new datatypes
+            String query = "CREATE TABLE " + table + " ( " +id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    FormType + " CHAR(1) NOT NULL, " +
+                    FirstName + " VARCHAR(30), " +
+                    MiddleName + " VARCHAR(30), " +
+                    LastName + " VARCHAR(30), " +
+                    Address + " VARCHAR(50), " +
+                    City + " VARCHAR(25), " +
+                    State + " VARCHAR(15), " +
+                    Zip + " DECIMAL(5), " +
+                    County + " VARCHAR(25), " +
+                    DateOfBirth + " DATE, " +
+                    Gender + " CHAR(1), " +
+                    Ethnicity + " VARCHAR(6), " +
+                    SSNum + " DECIMAL(9), " +
+                    PhoneNum + " DECIMAL(15), " +
+                    Email + " VARCHAR(30), " +
+                    ContactPref + " CHAR(1), " +
+                    HighSchool + " VARCHAR(50), " +
+                    GradYear + " DECIMAL(4), " +
+                    ProgramOfInterest + " TEXT, " +
+                    ExtraCurricularActivities + " TEXT, " +
+                    Hobbies + " TEXT, " +
+                    Scholarships + " TEXT, " +
+                    FinanAid + " TEXT, " +
+                    MedInfo + " TEXT, " +
+                    Consent + " BOOLEAN NOT NULL, " +
+                    Medication + " TEXT, " +
+                    Allergy + " TEXT, " +
+                    Immunization + " TEXT, " +
+                    DietaryRestriction + " TEXT, " +
+                    IllnessHistory + " TEXT, " +
+                    DrugHistory + " TEXT " + " );";
+
             arg0.execSQL(query);
 
         }
@@ -145,24 +175,15 @@ public class SQLDatabase {
 
     }
 
-//   Does not work
     public boolean doesIdExist(int IDVal) {
         h = new helper(c);
         s = h.getReadableDatabase();
 
         Boolean recordExists;
-//        String[] tempArr = {"id"};
+        Cursor tempC = s.rawQuery("SELECT " + "id" + " FROM " + table + " where id=" +IDVal, null);
 
-        // TODO- If using this command, the query can be tightened up since we only care about the ID value
-        // Alternative queries are commented out
-//        Cursor tempC = s.rawQuery("SELECT * FROM " + table + " WHERE id" + "=" + "'" + IDVal + "';", null);
-//        Cursor tempC = s.rawQuery("select null where not exists (select *  from user where id=" + , null);
-//        Cursor c = s.query(table, tempArr, "id=" + IDVal, null, null, null, null);
-        Cursor c = s.rawQuery("SELECT " + "id" + " FROM " + table + " where id=" +IDVal, null);
-
-        recordExists = c != null && c.moveToFirst();
-
-        c.close();
+        recordExists = tempC != null && tempC.moveToFirst();
+        tempC.close();
 
         if (recordExists) {
             Log.v("RETURN:", "TRUE");
@@ -178,14 +199,10 @@ public class SQLDatabase {
         s = h.getReadableDatabase();
 
         String Query = "DELETE FROM " + table + " WHERE id" + "=" + "'" + idVal + "';";
-//        String Query = "DELETE FROM " + table + ";";
         s.execSQL(Query);
 
         Log.e("ERROR", "deleting record " + idVal);
     }
-
-
-
 
 // TODO Should we have getters for specific fields?
     // Tester method that returns all current records
@@ -194,10 +211,6 @@ public class SQLDatabase {
         h = new helper(c);
         s = h.getReadableDatabase();
         String txt = "";
-        String[] col = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
-                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
-                ContactPref, HighSchool, GradYear, ProgramOfInterest,
-                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
 
         // Testing code that looks to see if the table is empty before attempting to return values
         boolean empty = true;
@@ -209,21 +222,14 @@ public class SQLDatabase {
         if (empty)
             return "No data available";
 
-        Cursor c = s.query(table, col, null, null, null, null, null); //fetching data from database
+        Cursor c = s.query(table, columnNames, null, null, null, null, null); //fetching data from database
         c.moveToFirst();
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
 
-            txt = txt + c.getString(0) + " " + c.getString(1) + " " +
-                    c.getString(2) + " " + c.getString(3) + " " +
-                    c.getString(4) + " " + c.getString(5) + " " +
-                    c.getString(6) + " " + c.getString(7) + " " +
-                    c.getString(8) + " " + c.getString(9) + " " +
-                    c.getString(10) + " " + c.getString(11) + " " +
-                    c.getString(12) + " " + c.getString(13) + " " +
-                    c.getString(14) + " " + c.getString(15) + " " +
-                    c.getString(16) + " " + c.getString(17) + " " +
-                    c.getString(18) + " " + c.getString(19) + " " +
-                    c.getString(20) + " " + c.getString(21) + "\n";
+            for (int i = 0; i < columnNames.length; i++) {
+                txt += c.getString(i) + ", ";
+            }
+            txt += "\n\n";
         }
 
         c.close();
@@ -231,12 +237,12 @@ public class SQLDatabase {
         return txt;
     }
 
-    // Test method to pull only certain fields from the table, used when using the Reports tab
+    // TODO Modify what fields are returned based on final design of list_row_item
     String[] getRowData() {
         h = new helper(c);
         s = h.getReadableDatabase();
 
-        String[] txt = {"","","",""};
+        String[] txt = {"","","","",""};
 
         boolean empty = true;
         Cursor tempC = s.rawQuery("SELECT id FROM user", null);
@@ -249,21 +255,23 @@ public class SQLDatabase {
             txt[1] = "null";
             txt[2] = "null";
             txt[3] = "null";
+            txt[4] = "null";
             return txt;
         }
 
-        String[] col = {id, FirstName, MiddleName, LastName};
-        Cursor c = s.query(table, col, null, null, null, null, null);
-        c.moveToFirst();
+        // Enter whatever data you would like pulled here
+        String[] col = {id, FirstName, MiddleName, LastName, FormType};
+        tempC = s.query(table, col, null, null, null, null, null);
+        tempC.moveToFirst();
 
         // Remove statements as needed to return only required data
-        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            for (int i = 0; i < 4; i++){
-                txt[i] = txt[i] + "," + c.getString(i);
+        for (tempC.moveToFirst(); !tempC.isAfterLast(); tempC.moveToNext()) {
+            for (int i = 0; i < 5; i++){
+                txt[i] = txt[i] + "," + tempC.getString(i);
             }
         }
 
-        c.close();
+        tempC.close();
 
         return txt;
     }
@@ -273,35 +281,19 @@ public class SQLDatabase {
         h = new helper(c);
         s = h.getReadableDatabase();
 
-        String[]txt = new String[25];
+        String[]txt = new String[numOfColumns];
 
-        String[] col = { id, FirstName, MiddleName, LastName, Address, City, State, Zip,
-                County, DateOfBirth, Gender, Ethnicity, SSNum, PhoneNum, Email,
-                ContactPref, HighSchool, GradYear, ProgramOfInterest,
-                ExtraCurricularActivities, Hobbies, Scholarships, FinanAid, MedInfo, Consent};
-
-        Cursor c = s.query(table, col, "id=" + tempIndex, null, null, null, null);
-//        c = s.rawQuery("SELECT " + col + " FROM " + table + " where id=" +tempIndex, null);
+        Cursor c = s.query(table, columnNames, "id=" + tempIndex, null, null, null, null);
         c.moveToFirst();
 
         // Returns all values within the table for the selected row
-//        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-        for (int i = 0; i < 25; i++){
+        for (int i = 0; i < numOfColumns; i++){
             txt[i] = c.getString(i);
         }
 
         c.close();
 
         return txt;
-    }
-
-    int getHighestIndex() {
-        int tempIndex;
-        Cursor tempC = s.rawQuery("SELECT id FROM user", null);
-        tempC.moveToLast();
-        tempIndex = Integer.parseInt(tempC.getString(0));
-        tempC.close();
-        return tempIndex;
     }
 }
 

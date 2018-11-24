@@ -33,7 +33,7 @@
     <string name="txt_hint_ssn">SSN</string>
     <string name="txt_hint_phone">Phone Number</string>
     <string name="txt_hint_email">Email Address</string>
-    <string name="txt_hint_contact">Contact Preference</string>
+    <string name="txt_hint_contact">Contact Preference (e or p)</string>
     <string name="txt_hint_highschool">High School</string>
     <string name="txt_hint_gradYear">Graduation Year</string>
     <string name="txt_hint_poi">Program of Interest</string>
@@ -42,6 +42,23 @@
     <string name="txt_hint_scholarships">Scholarships</string>
     <string name="txt_hint_finanAid">Financial Aid</string>
     <string name="txt_hint_medInfo">Medical Info</string>
-    <string name="txt_hint_consent">Consent</string>
+    <string name="txt_hint_consent">Consent to Save Information</string>
+    <string name="txt_hint_medication">Medications</string>
+    <string name="txt_hint_allergy">Allergies</string>
+    <string name="txt_hint_immunization">Immunizations</string>
+    <string name="txt_hint_dietaryRestriction">Dietary Restrictions</string>
+    <string name="txt_hint_illnessHistory">History of Illness</string>
+    <string name="txt_hint_drugHistory">History of Drug Use</string>
+
+    <!-- Strings used as helper text for radio buttons -->
     <string name="rdbtn_gender_male">Male</string>
+    <string name="rdbtn_gender_female">Female</string>
+
+    <!-- Strings used as helper text for Checkboxes -->
+    <string name="chk_ethnicity_caucasian">White</string>
+    <string name="chk_ethnicity_hispanic">Hispanic or Latino</string>
+    <string name="chk_ethnicity_black">Black or African American</string>
+    <string name="chk_ethnicity_nativeAmerican">American Indian or Alaska Native</string>
+    <string name="chk_ethnicity_asian">Asian</string>
+    <string name="chk_ethnicity_pacific">Native Hawaiian or Pacific Islander</string>
 </resources>

@@ -19,7 +19,7 @@
         <activity
             android:name=".FormDefault"
             android:label=	"Input Form"
-            android:theme="@style/LewisColors" />
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

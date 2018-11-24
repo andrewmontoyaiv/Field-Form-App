@@ -1,58 +1,90 @@
 package edu.lewisu.fieldformapp;
 
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+
+import java.util.ArrayList;
 
 public class FormDefault extends SQLHandler {
     Button btnSubmit, btnEdit, btnUpdate, btnDelete;
-    int ID;
-    String formType;
-//    private static MainActivity mainActivity;
+    char newFormType;
+    ArrayList<View> touchables;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.default_form);
 
-        // Adjust names to match camelCase
+        // Name
         firstName = findViewById(R.id.fName);
         middleName = findViewById(R.id.mName);
         lastName = findViewById(R.id.lName);
+
+        // Address
         address = findViewById(R.id.address);
         city = findViewById(R.id.city);
         state = findViewById(R.id.state);
         zip = findViewById(R.id.zip);
-        County= findViewById(R.id.county);
+        county = findViewById(R.id.county);
+
+        // Demographic
         dateOfBirth= findViewById(R.id.dob);
-        gender = findViewById(R.id.gender);
-        ethnicity = findViewById(R.id.ethnicity);
+//        gender = findViewById(R.id.gender);
+//        ethnicity = findViewById(R.id.ethnicity);
         ssnum = findViewById(R.id.ssnum);
+
+        // Contact
         phoneNum= findViewById(R.id.phoneNum);
         email= findViewById(R.id.email);
         contactPref= findViewById(R.id.contactPref);
+
+        // High School
         highSchool= findViewById(R.id.highSchool);
         gradYear= findViewById(R.id.gradYear);
         programOfInterest= findViewById(R.id.poi);
         extraCurricularActivities= findViewById(R.id.eca);
         hobbies = findViewById(R.id.hobbies);
+
+        // College
+        programOfInterest= findViewById(R.id.poi);
         scholarship = findViewById(R.id.scholarship); //
         finanAid= findViewById(R.id.financialAid); //
+
+        // Medical
         medInfo= findViewById(R.id.medInfo);
-        Medication = findViewById(R.id.medication);
-        Allergy = findViewById(R.id.allergy);
-        Immunization = findViewById(R.id.immunization);
-        dietaryRestriction = findViewById(R.id.DietRestriction);
-        illnessHistory = findViewById(R.id.IllHistory);
-        drugHistory = findViewById(R.id.drgHistory);
-        consent = findViewById(R.id.consent);
-        // TODO Add new fields here
+        medication = findViewById(R.id.medication);
+        allergy = findViewById(R.id.allergy);
+        immunization = findViewById(R.id.immunization);
+        dietaryRestriction = findViewById(R.id.dietaryRestriction);
+        illnessHistory = findViewById(R.id.illnessHistory);
+        drugHistory = findViewById(R.id.drugHistory);
 
+//        consent = findViewById(R.id.consent);
 
-        
+        // Gender selection
+        genderRadioGroup = findViewById(R.id.genderRadioGroup);
+        rdbtn_gender_male = findViewById(R.id.rdbtn_gender_male);
+        rdbtn_gender_female = findViewById(R.id.rdbtn_gender_female);
+
+        // Ethnicity selection - These are based on the Illinois State Board of Educations
+        // recognized Race/Ethnicity Standards
+        chk_ethnicity_nativeAmerican = findViewById(R.id.chk_ethnicity_nativeAmerican);
+        chk_ethnicity_asian = findViewById(R.id.chk_ethnicity_asian);
+        chk_ethnicity_black = findViewById(R.id.chk_ethnicity_black);
+        chk_ethnicity_pacific = findViewById(R.id.chk_ethnicity_pacific);
+        chk_ethnicity_caucasian = findViewById(R.id.chk_ethnicity_caucasian);
+        chk_ethnicity_hispanic = findViewById(R.id.chk_ethnicity_hispanic);
+
+        chk_consent = findViewById(R.id.chk_consent);
+
         // TextView that is hidden from the user at all times
         currID = findViewById(R.id.currID);
+        formType = findViewById(R.id.formType);
 
         // Buttons that appear as needed
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -62,134 +94,157 @@ public class FormDefault extends SQLHandler {
 
         // Hides buttons and textview that should not be used by users at this time
         currID.setVisibility(View.GONE);
+        formType.setVisibility(View.GONE);
         btnEdit.setVisibility(View.GONE);
         btnUpdate.setVisibility(View.GONE);
         btnDelete.setVisibility(View.GONE);
 
 
-
-        formType = "R";
+        newFormType = 'A';
         // If the form has been created with extras, the form will populate with the provided strings
         // This is used when opening a previous record for viewing/editing
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+//            ID = extras.getInt("Record ID"); // Can be deleted
+            newFormType =  extras.getChar("Form Type");
+
             String[] tempStr = extras.getStringArray("Record Data");
             openRecord(tempStr);
-            ID = extras.getInt("Record ID");
-            formType =  extras.getString("Form Type");
         }
 
 
+        setFormType(newFormType);
+    }
 
-
-        ////////////////////////////////////////////////////////////////////////////////////////////
-        /// TODO For Hiren
-        //////////////////////////////////////////
-        if (formType.equals("R")) {
+    // Used to hide fields that are not used for the chosen form type
+    void setFormType(char fType) {
+        // For the textboxes, you need to hide the surrounding layouts in order to shrink the space
+        if (fType == 'R') {
             // Hide Healthcare only fields
-            Medication.setVisibility(View.GONE); /// Adam or Andy look over these fields and make
-            Allergy.setVisibility(View.GONE); /// sure they make sense
-            dietaryRestriction.setVisibility(View.GONE);
-            illnessHistory.setVisibility(View.GONE);
-            drugHistory.setVisibility(View.GONE);
-
-        } else if (formType.equals("H")) {
+            findViewById(R.id.medicationLayout).setVisibility(View.GONE);
+            findViewById(R.id.allergyLayout).setVisibility(View.GONE);
+            findViewById(R.id.immunizationLayout).setVisibility(View.GONE);
+            findViewById(R.id.dietaryRestrictionLayout).setVisibility(View.GONE);
+            findViewById(R.id.illnessHistoryLayout).setVisibility(View.GONE);
+            findViewById(R.id.drugHistoryLayout).setVisibility(View.GONE);
+        } else if (fType == 'H') {
             // Hide Recruiter only fields
-            scholarship.setVisibility(View.GONE);
-            finanAid.setVisibility(View.GONE);
-            ssnum.setVisibility(View.GONE);
-            highSchool.setVisibility(View.GONE);
-            gradYear.setVisibility(View.GONE);
-            programOfInterest.setVisibility(View.GONE);
-            extraCurricularActivities.setVisibility(View.GONE);
-            hobbies.setVisibility(View.GONE);
+            findViewById(R.id.scholarshipLayout).setVisibility(View.GONE);
+            findViewById(R.id.financialAidLayout).setVisibility(View.GONE);
+            findViewById(R.id.highSchoolLayout).setVisibility(View.GONE);
+            findViewById(R.id.gradYearLayout).setVisibility(View.GONE);
+            findViewById(R.id.poiLayout).setVisibility(View.GONE);
+            findViewById(R.id.ecaLayout).setVisibility(View.GONE);
+            findViewById(R.id.collegeDivider).setVisibility(View.GONE);
+        }
+
+        // Sets formType for new forms
+        formType.setText(String.valueOf(fType));
+    }
+
+    // Disables all fields so they cannot be modified
+    void disableAllFields() {
+        LinearLayout formLinearLayout = (LinearLayout) findViewById(R.id.formLinearLayout);
+
+        // Save all touchable IDs to allow for simpler re-enabling
+        touchables = formLinearLayout.getTouchables();
+
+        for (View view : formLinearLayout.getTouchables()) {
+            if (view instanceof EditText) {
+                EditText editText = (EditText) view;
+                editText.setEnabled(false);
+                editText.setFocusable(false);
+                editText.setFocusableInTouchMode(false);
+            } else if (view instanceof CheckBox) {
+                CheckBox tempCB = (CheckBox) view;
+                tempCB.setEnabled(false);
+            } else if (view instanceof RadioButton) {
+                RadioButton tempRB = (RadioButton) view;
+                tempRB.setEnabled(false);
+            }
         }
     }
 
-//    public void deleteData(View view) {
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            ID = extras.getInt("Record ID");
-//        }
-//
-//        super.itemTwoFrag.changeMade = 'D';
-//
-//        sql.deleteRecord(ID);
-//        finish();
-//    }
+    // Enables all fields so they can be modified
+    void enableAllFields() {
+        for (View view : touchables) {
+            if (view instanceof EditText) {
+                EditText editText = (EditText) view;
+                editText.setFocusableInTouchMode(true);
+                editText.setFocusable(true);
+                editText.setEnabled(true);
+            } else if (view instanceof CheckBox) {
+                CheckBox tempCB = (CheckBox) view;
+                tempCB.setEnabled(true);
+            } else if (view instanceof RadioButton) {
+                RadioButton tempRB = (RadioButton) view;
+                tempRB.setEnabled(true);
+            }
+        }
+    }
 
-
-
+    // Parses information from a record and displays it in the matching fields
     public void openRecord(String[] recordData) {
+        // Checks to see if a previous record has been sent to be displayed
+        if (recordData == null)
+            return;
+
         // Autofill all fields with record values
+
         currID.setText(recordData[0]);
-        firstName.setText(recordData[1]);
-        middleName.setText(recordData[2]);
-        lastName.setText(recordData[3]);
-        address.setText(recordData[4]);
-        city.setText(recordData[5]);
-        state.setText(recordData[6]);
-        zip.setText(recordData[7]);
-        County.setText(recordData[8]);
-        dateOfBirth.setText(recordData[9]);
-        gender.setText(recordData[10]);
-        ethnicity.setText(recordData[11]);
-        ssnum.setText(recordData[12]);
-        phoneNum.setText(recordData[13]);
-        email.setText(recordData[14]);
-        contactPref.setText(recordData[15]);
-        highSchool.setText(recordData[16]);
-        gradYear.setText(recordData[17]);
-        programOfInterest.setText(recordData[18]);
-        extraCurricularActivities.setText(recordData[19]);
-        hobbies.setText(recordData[20]);
-        scholarship.setText(recordData[21]);
-        finanAid.setText(recordData[22]);
-        medInfo.setText(recordData[23]);
-        Medication.setText(recordData[24]);
-        Allergy.setText(recordData[25]);
-        Immunization.setText(recordData[26]);
-        dietaryRestriction.setText(recordData[27]);
-        illnessHistory.setText(recordData[28]);
-        drugHistory.setText(recordData[29]);
-        consent.setText(recordData[30]);
+        formType.setText(recordData[1]);
+        firstName.setText(recordData[2]);
+        middleName.setText(recordData[3]);
+        lastName.setText(recordData[4]);
+        address.setText(recordData[5]);
+        city.setText(recordData[6]);
+        state.setText(recordData[7]);
+        zip.setText(recordData[8]);
+        county.setText(recordData[9]);
+        dateOfBirth.setText(recordData[10]);
 
-        // if (recordData[25].equals("R") // College Recruiter
+        if (recordData[11].equals("M"))
+            rdbtn_gender_male.setChecked(true);
+        else if (recordData[11].equals("F"))
+            rdbtn_gender_female.setChecked(true);
 
+        int[] tempEth = new int[recordData[12].length()];
+        for (int i = 0; i < tempEth.length; i++) {
+            tempEth[i] = Integer.parseInt(recordData[12].substring(i, i+1));
+        }
 
-        // if (recordData[25].equals("H") // Healthcare Professional
+        chk_ethnicity_nativeAmerican.setChecked(tempEth[0] == 1);
+        chk_ethnicity_asian.setChecked(tempEth[1] == 1);
+        chk_ethnicity_black.setChecked(tempEth[2] == 1);
+        chk_ethnicity_pacific.setChecked(tempEth[3] == 1);
+        chk_ethnicity_caucasian.setChecked(tempEth[4] == 1);
+        chk_ethnicity_hispanic.setChecked(tempEth[5] == 1);
 
-        // Disable selectable fields
-        firstName.setKeyListener(null);
-        middleName.setKeyListener(null);
-        lastName.setKeyListener(null);
-        address.setKeyListener(null);
-        city.setKeyListener(null);
-        state.setKeyListener(null);
-        zip.setKeyListener(null);
-        County.setKeyListener(null);
-        dateOfBirth.setKeyListener(null);
-        gender.setKeyListener(null);
-        ethnicity.setKeyListener(null);
-        ssnum.setKeyListener(null);
-        phoneNum.setKeyListener(null);
-        email.setKeyListener(null);
-        contactPref.setKeyListener(null);
-        highSchool.setKeyListener(null);
-        gradYear.setKeyListener(null);
-        programOfInterest.setKeyListener(null);
-        extraCurricularActivities.setKeyListener(null);
-        hobbies.setKeyListener(null);
-        scholarship.setKeyListener(null);
-        finanAid.setKeyListener(null);
-        medInfo.setKeyListener(null);
-        Medication.setKeyListener(null);
-        Allergy.setKeyListener(null);
-        Immunization.setKeyListener(null);
-        dietaryRestriction.setKeyListener(null);
-        illnessHistory.setKeyListener(null);
-        drugHistory.setKeyListener(null);
-        consent.setKeyListener(null);
+        ssnum.setText(recordData[13]);
+        phoneNum.setText(recordData[14]);
+        email.setText(recordData[15]);
+        contactPref.setText(recordData[16]);
+        highSchool.setText(recordData[17]);
+        gradYear.setText(recordData[18]);
+        programOfInterest.setText(recordData[19]);
+        extraCurricularActivities.setText(recordData[20]);
+        hobbies.setText(recordData[21]);
+        scholarship.setText(recordData[22]);
+        finanAid.setText(recordData[23]);
+        medInfo.setText(recordData[24]);
+
+        // Two different statements used since the SQL table will store the value as either 0/1 or false/true
+        if (recordData[25].contains("1") || recordData[25].equals("true"))
+            chk_consent.setChecked(true);
+
+        medication.setText(recordData[26]);
+        allergy.setText(recordData[27]);
+        immunization.setText(recordData[28]);
+        dietaryRestriction.setText(recordData[29]);
+        illnessHistory.setText(recordData[30]);
+        drugHistory.setText(recordData[31]);
+
+        disableAllFields();
 
         // Hide Submit button
         btnSubmit.setVisibility(View.GONE);
@@ -197,6 +252,7 @@ public class FormDefault extends SQLHandler {
         btnEdit.setVisibility(View.VISIBLE);
     }
 
+    // Changes the button layout and reenables all fields
     public void editRecord(View v) {
         // Hide Edit button
         btnEdit.setVisibility(View.GONE);
@@ -204,36 +260,6 @@ public class FormDefault extends SQLHandler {
         btnUpdate.setVisibility(View.VISIBLE);
         btnDelete.setVisibility(View.VISIBLE);
 
-        // Enable selectable fields
-        firstName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        middleName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        lastName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
-        address.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        city.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        state.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        zip.setInputType(InputType.TYPE_CLASS_NUMBER);
-        County.setInputType(InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS);
-        dateOfBirth.setInputType(InputType.TYPE_CLASS_NUMBER);
-        gender.setInputType(InputType.TYPE_CLASS_TEXT);
-        ethnicity.setInputType(InputType.TYPE_CLASS_TEXT);
-        ssnum.setInputType(InputType.TYPE_CLASS_NUMBER);
-        phoneNum.setInputType(InputType.TYPE_CLASS_PHONE);
-        email.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-        contactPref.setInputType(InputType.TYPE_CLASS_TEXT);
-        highSchool.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        gradYear.setInputType(InputType.TYPE_CLASS_NUMBER);
-        programOfInterest.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        extraCurricularActivities.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        hobbies.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        scholarship.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        finanAid.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        medInfo.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        Medication.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); /// Adam or Andy look over
-        Allergy.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); /// these fields and make
-        Immunization.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE); /// sure they make sense
-        dietaryRestriction.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        illnessHistory.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        drugHistory.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        consent.setInputType(InputType.TYPE_CLASS_TEXT);
+        enableAllFields();
     }
 }

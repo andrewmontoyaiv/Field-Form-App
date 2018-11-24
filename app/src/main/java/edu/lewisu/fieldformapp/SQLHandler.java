@@ -2,8 +2,8 @@ package edu.lewisu.fieldformapp;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -11,30 +11,50 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SQLHandler extends AppCompatActivity {
-
     // TODO: Factor out existing sql login into here
+    String[] fieldNames = {"currID", "formType", "fName", "mName",
+            "lName", "address", "city", "state",
+            "zip", "county", "dob", "gender",
+            "ethnicity", "ssnum", "phoneNum", "email",
+            "contactPref", "highSchool", "gradYear", "poi",
+            "eca", "hobbies", "scholarship", "financialAid",
+            "medInfo", "consent", "medication", "allergy",
+            "immunization", "dietaryRestriction", "illnessHistory", "drugHistory"};
 
-    // Formula = Type + defaultForm.xml Name
-    String[] fieldNames = {"TcurrID", "TfName", "TmName", "TlName", "Taddress", "Tcity", "Tstate",
-            "Tzip", "Tcounty", "Tdob", "Tgender", "Tethnicity", "Tssnum", "TphoneNum", "Temail",
-            "TcontactPref", "ThighSchool", "TgradYear", "Tpoi", "Teca",
-            "Thobbies", "Tscholarship", "TfinancialAid", "TmedInfo", "TMedication", "TAllergy",
-            "TImmunization", "dietaryRestriction", "TillnessHistory", "TdrugHistory", "Tconsent"};
+    // T - EditText, R - Radio, C - Checkbox
+    char[] fieldTypes = {'T','T','T','T',
+                        'T','T','T','T',
+                        'T','T','R','C',
+                        'T','T','T','T',
+                        'T','T','T','T',
+                        'T','T','T','T',
+                        'T','C','T','T',
+                        'T','T','T','T'};
+    // B - Both, R - Recruiter, H - Healthcare
+    char[] requiredFields ={'B','B','B','B',
+                            'B','B','B','B',
+                            'B','B','B','B',
+                            'B','B','B','B',
+                            'B','R','R','R',
+                            'R','B','R','R',
+                            'B','B','H','H',
+                            'H','H','H','H'};
+
 
     ItemOneFragment itemOneFrag;
     ItemTwoFragment itemTwoFrag;
     ItemThreeFragment itemThreeFrag;
 
-//    char recordChange;
-
-//    RecyclerView rvFrag2;
-
-    EditText firstName, middleName, lastName, address, city, state, zip, County, dateOfBirth,
-            gender, ethnicity, ssnum, phoneNum, email, contactPref, highSchool,
-            gradYear, programOfInterest, extraCurricularActivities, hobbies,
-            scholarship, finanAid, medInfo, Medication, Allergy, Immunization,
-            dietaryRestriction, illnessHistory, drugHistory, consent;
-    TextView currID;
+    EditText firstName, middleName, lastName, address, city, state, zip, county, dateOfBirth,
+            ssnum, phoneNum, email, contactPref, highSchool, gradYear, programOfInterest,
+            extraCurricularActivities, hobbies, scholarship, finanAid, medInfo, medication,
+            allergy, immunization, dietaryRestriction, illnessHistory, drugHistory;
+    RadioGroup genderRadioGroup;
+    RadioButton rdbtn_gender_male, rdbtn_gender_female;
+    CheckBox chk_ethnicity_nativeAmerican, chk_ethnicity_asian, chk_ethnicity_black,
+            chk_ethnicity_pacific, chk_ethnicity_caucasian, chk_ethnicity_hispanic,
+            chk_consent;
+    TextView currID, formType;
 
     SQLDatabase sql;
 
@@ -51,115 +71,114 @@ public class SQLHandler extends AppCompatActivity {
     // defined in the xml
     public void saveData(View v)
     {
-//        String firstName = firstName.getText().toString();
-//        String middleName = middleName.getText().toString();
-//        String lName = lastName.getText().toString();
-//        String add = address.getText().toString();
-//        String city = city.getText().toString();
-//        String state = state.getText().toString();
-//        String zip = zip.getText().toString();
-//        String county = County.getText().toString();
-//        String DOB = dateOfBirth.getText().toString();
-//        String gender = gender.getText().toString();
-//        String ethnicity = ethnicity.getText().toString();
-//        String SSN = ssnum.getText().toString();
-//        String PhoneNum = phoneNum.getText().toString();
-//        String eMail = email.getText().toString();
-//        String ContactPref = contactPref.getText().toString();
-//        String HighSchool = highSchool.getText().toString();
-//        String GradYear = gradYear.getText().toString();
-//        String ProgramOfInterest = programOfInterest.getText().toString();
-//        String ExtraCurricularActivities = extraCurricularActivities.getText().toString();
-//        String hobbies = hobbies.getText().toString();
-//        String scholarships = scholarship.getText().toString();
-//        String FinanAid = finanAid.getText().toString();
-//        String MedInfo = medInfo.getText().toString();
-//        String consent = consent.getText().toString();
-//
-//        String[] fieldNames = {"firstName", "middleName", "lastName", "address", "city", "state",
-//                "zip", "County", "dateOfBirth", "gender", "ethnicity", "ssnum", "phoneNum", "email",
-//                "contactPref", "highSchool", "gradYear", "programOfInterest", "extraCurricularActivities",
-//                "hobbies", "scholarship", "finanAid", "medInfo", "consent"};
+        String[] newRecord = getAllFields();
 
-        String[] newRecord = new String [30];
-        newRecord[0] = currID.getText().toString();
-        newRecord[1] = firstName.getText().toString();
-        newRecord[2] = middleName.getText().toString();
-        newRecord[3] = lastName.getText().toString();
-        newRecord[4] = address.getText().toString();
-        newRecord[5] = city.getText().toString();
-        newRecord[6] = state.getText().toString();
-        newRecord[7] = zip.getText().toString();
-        newRecord[8] = County.getText().toString();
-        newRecord[9] = dateOfBirth.getText().toString();
-        newRecord[10] = gender.getText().toString();
-        newRecord[11] = ethnicity.getText().toString();
-        newRecord[12] = ssnum.getText().toString();
-        newRecord[13] = phoneNum.getText().toString();
-        newRecord[14] = email.getText().toString();
-        newRecord[15] = contactPref.getText().toString();
-        newRecord[16] = highSchool.getText().toString();
-        newRecord[17] = gradYear.getText().toString();
-        newRecord[18] = programOfInterest.getText().toString();
-        newRecord[19] = extraCurricularActivities.getText().toString();
-        newRecord[20] = hobbies.getText().toString();
-        newRecord[21] = scholarship.getText().toString();
-        newRecord[22] = finanAid.getText().toString();
-        newRecord[23] = medInfo.getText().toString();
-        newRecord[24] = Medication.getText().toString();
-        newRecord[25] = Allergy.getText().toString();
-        newRecord[26] = Immunization.getText().toString();
-        newRecord[27] = dietaryRestriction.getText().toString();
-        newRecord[28] = illnessHistory.getText().toString();
-        newRecord[29] = drugHistory.getText().toString();
-        newRecord[30] = consent.getText().toString();
-
-        if (! validateFields(newRecord)) //,fieldNames))
+        if (! validateFields(newRecord))
             return;
 
         sql.open();
-//        sql.save(firstName,middleName, lName, add, city, state, zip, county, DOB, gender, ethnicity, SSN,
-//                PhoneNum, eMail, ContactPref, HighSchool, GradYear,
-//                ProgramOfInterest, ExtraCurricularActivities, hobbies,
-//                scholarships, FinanAid, MedInfo, consent);
         sql.save(newRecord);
-//        int tempIndex = sql.getHighestIndex();
         sql.close();
         Toast.makeText(this, "Saved Successfully", Toast.LENGTH_SHORT).show();
 
-
-        // Create new RowItemData for ItemTwoFrag rowItemAdapter;
-//        itemTwoFrag.rowItemAdapter.addRow(new RowItemData(String.valueOf(tempIndex), newRecord[1], newRecord[2], newRecord[3]));
-//        itemTwoFrag.rowItemAdapter.notifyItemChanged(itemTwoFrag.rowItemAdapter.getItemCount()-1);
-
-//        recordChange = 'N';
-
         finish();
+    }
+
+    String[] getAllFields() {
+        String[] currRecord = new String [32];
+
+        currRecord[0] = currID.getText().toString();
+        currRecord[1] = formType.getText().toString();
+        currRecord[2] = firstName.getText().toString();
+        currRecord[3] = middleName.getText().toString();
+        currRecord[4] = lastName.getText().toString();
+        currRecord[5] = address.getText().toString();
+        currRecord[6] = city.getText().toString();
+        currRecord[7] = state.getText().toString();
+        currRecord[8] = zip.getText().toString();
+        currRecord[9] = county.getText().toString();
+        currRecord[10] = dateOfBirth.getText().toString();
+
+        // Check Gender Radio Buttons
+        if (rdbtn_gender_male.isChecked())
+            currRecord[11] = "M"; // Male
+        else if (rdbtn_gender_female.isChecked())
+            currRecord[11] = "F"; // Female
+        else
+            currRecord[11] = "N"; // Not Selected
+
+
+        // Build Ethnicity String
+        if (chk_ethnicity_nativeAmerican.isChecked())
+            currRecord[12] = "1";
+        else
+            currRecord[12] = "0";
+        if (chk_ethnicity_asian.isChecked())
+            currRecord[12] += "1";
+        else
+            currRecord[12] += "0";
+        if (chk_ethnicity_black.isChecked())
+            currRecord[12] += "1";
+        else
+            currRecord[12] += "0";
+        if (chk_ethnicity_pacific.isChecked())
+            currRecord[12] += "1";
+        else
+            currRecord[12] += "0";
+        if (chk_ethnicity_caucasian.isChecked())
+            currRecord[12] += "1";
+        else
+            currRecord[12] += "0";
+        if (chk_ethnicity_hispanic.isChecked())
+            currRecord[12] += "1";
+        else
+            currRecord[12] += "0";
+
+        currRecord[13] = ssnum.getText().toString();
+        currRecord[14] = phoneNum.getText().toString();
+        currRecord[15] = email.getText().toString();
+        currRecord[16] = contactPref.getText().toString();
+        currRecord[17] = highSchool.getText().toString();
+        currRecord[18] = gradYear.getText().toString();
+        currRecord[19] = programOfInterest.getText().toString();
+        currRecord[20] = extraCurricularActivities.getText().toString();
+        currRecord[21] = hobbies.getText().toString();
+        currRecord[22] = scholarship.getText().toString();
+        currRecord[23] = finanAid.getText().toString();
+        currRecord[24] = medInfo.getText().toString();
+        currRecord[25] = String.valueOf(chk_consent.isChecked());
+        currRecord[26] = medication.getText().toString();
+        currRecord[27] = allergy.getText().toString();
+        currRecord[28] = immunization.getText().toString();
+        currRecord[29] = dietaryRestriction.getText().toString();
+        currRecord[30] = illnessHistory.getText().toString();
+        currRecord[31] = drugHistory.getText().toString();
+
+        return currRecord;
     }
 
     //TODO The validation methods do work, but need to confirm field names are spelled correctly
     // Validation method that will highlight any and all invalid fields.
     Boolean validateFields(String[] recordFields) { //, String[] fieldNames) {
-        Boolean[] isBlank = new Boolean[recordFields.length];
         Boolean allPass = true;
-        EditText tempEditText;
         TextInputLayout tempTextInputLayout;
-        RadioGroup tempRadio;
-        RadioButton tempRButton;
 
         // Variables to hold the name, type, and ID of a particular field.  Parsed from the fieldNames array
         int tempID;
         String tempName, tempType;
 
-
         // Starts at 1 since the CurrID field cannot be modified by user
         for (int i = 1; i < recordFields.length; i++) {
-            if ((recordFields[i].equals("")) || (recordFields[i].equals(null))) {
-                    //isBlank[i] = true;  // TODO, nest the below code into this loop to remove secondary loop
+            // Is field blank, AND is field used in this form type
+            if (recordFields[i].equals("") &&
+                    ((requiredFields[i] == 'B') || (requiredFields[i] == recordFields[1].charAt(0)))) {
+                // TODO fix the comparisons to work with a char
+                tempType = String.valueOf(fieldTypes[i]);
+                tempName = fieldNames[i];
 
-                    tempType = fieldNames[i].substring(0,1);
-                    tempName = fieldNames[i].substring(1);
-                    tempID = getResources().getIdentifier(tempName,"id",getPackageName());
+//                    tempType = fieldNames[i].substring(0,1);
+//                    tempName = fieldNames[i].substring(1);
+                tempID = getResources().getIdentifier(tempName,"id",getPackageName());
 
 //                if (tempType.equals('T')) {
                 if ("T".equals(tempType)) {
@@ -173,127 +192,51 @@ public class SQLHandler extends AppCompatActivity {
 //
 //                    tempEditText.setError("This field cannot be blank");
                 } else if (tempType.equals('R')) {
-                    tempRadio = (RadioGroup) findViewById(tempID);
-
-                    if (tempRadio.getCheckedRadioButtonId() == -1) {
-                        // TODO Define what radio buttons are applicable and highlight them with an error
-                        tempRButton = (RadioButton) findViewById(tempRadio.getChildAt(0).getId());
-
-                        tempRButton.setError("Must choose one of the options");
-                    }
+                    // Validation for the radio buttons are written below
+                    // This if should never be reached
                 } else if (tempType.equals('C')) {
-                    // TODO Define how validation will work for checkboxes
+                    // TODO Define how validation will work for checkboxes, if needed
+                    // Validation for the consent checkbox is written below
                 }
 
                 allPass = false;
             }
         }
 
-        // Available Types: T - EditText, R - Radio Button, C - Checkbox
-//        for (int j = 0; j < isBlank.length; j++) {
-//            if (!isBlank[j]) {
-//                tempType = fieldNames[j].substring(0,1);
-//                tempName = fieldNames[j].substring(1);
-//                tempID = getResources().getIdentifier(tempName,"id",getPackageName());
-//                if (tempType.equals('T')) {
-//                    tempEditText = (EditText) findViewById(tempID);
-//
-//                    tempEditText.setError("This field cannot be blank");
-//                } else if (tempType.equals('R')) {
-//                    tempRadio = (RadioGroup) findViewById(tempID);
-//
-//                    if (tempRadio.getCheckedRadioButtonId() == -1) {
-//                        // TODO Define what radio buttons are applicable and highlight them with an error
-//                        tempRButton = (RadioButton) findViewById(tempRadio.getChildAt(0).getId());
-//
-//                        tempRButton.setError("Must choose one of the options");
-//                    }
-//                } else if (tempType.equals('C')) {
-//                    // TODO Define how validation will work for checkboxes
-//                }
-//            }
-//        }
+        // Validation for Gender Radio Buttons
+        if (recordFields[11].equals("N")) {
+            rdbtn_gender_male.setError("Must select a gender option");
+
+            allPass = false;
+        }
+
+        // Validation specifically for the Consent checkbox
+        if (recordFields[25].equals("false")) {
+            chk_consent.setError("Must approve to submit form");
+
+            allPass = false;
+        }
 
         return allPass;
     }
 
-    public void updateData(View v)
-    {
-        String[] modifiedRecord = new String [30];
-        modifiedRecord[0] = currID.getText().toString();
-        modifiedRecord[1] = firstName.getText().toString();
-        modifiedRecord[2] = middleName.getText().toString();
-        modifiedRecord[3] = lastName.getText().toString();
-        modifiedRecord[4] = address.getText().toString();
-        modifiedRecord[5] = city.getText().toString();
-        modifiedRecord[6] = state.getText().toString();
-        modifiedRecord[7] = zip.getText().toString();
-        modifiedRecord[8] = County.getText().toString();
-        modifiedRecord[9] = dateOfBirth.getText().toString();
-        modifiedRecord[10] = gender.getText().toString();
-        modifiedRecord[11] = ethnicity.getText().toString();
-        modifiedRecord[12] = ssnum.getText().toString();
-        modifiedRecord[13] = phoneNum.getText().toString();
-        modifiedRecord[14] = email.getText().toString();
-        modifiedRecord[15] = contactPref.getText().toString();
-        modifiedRecord[16] = highSchool.getText().toString();
-        modifiedRecord[17] = gradYear.getText().toString();
-        modifiedRecord[18] = programOfInterest.getText().toString();
-        modifiedRecord[19] = extraCurricularActivities.getText().toString();
-        modifiedRecord[20] = hobbies.getText().toString();
-        modifiedRecord[21] = scholarship.getText().toString();
-        modifiedRecord[22] = finanAid.getText().toString();
-        modifiedRecord[23] = medInfo.getText().toString();
-        modifiedRecord[24] = Medication.getText().toString();
-        modifiedRecord[25] = Allergy.getText().toString();
-        modifiedRecord[26] = Immunization.getText().toString();
-        modifiedRecord[27] = dietaryRestriction.getText().toString();
-        modifiedRecord[28] = illnessHistory.getText().toString();
-        modifiedRecord[29] = drugHistory.getText().toString();
-        modifiedRecord[30] = consent.getText().toString();
+    public void updateData(View v) {
+        String[] modifiedRecord = getAllFields();
 
         if (! validateFields(modifiedRecord))
             return;
 
-        // Old validation method, can be removed
-//        for(int i=0; i<25; i++)
-//        {
-//            if ((modifiedRecord[i].equals ("") || (modifiedRecord [i].equals (null))))
-//            {
-//                Toast.makeText(this, "Please fix all blank fields!!", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
 
         sql.open();
         sql.editRecord(modifiedRecord);
         sql.close();
         Toast.makeText(this, "Updated Successfully", Toast.LENGTH_SHORT).show();
 
-//        recordChange = 'U';
-
         finish();
     }
 
     public void deleteData(View v) {
-//        recordChange = 'D';
         sql.deleteRecord(Integer.parseInt(currID.getText().toString()));
         finish();
-    }
-
-
-    public void openRecord(String[] recordData) {
-        // Alternative method to restore data by passing in the fieldNames along with the record data
-        int tempID;
-        EditText tempEdit;
-
-        // TODO - Implement this shorthand elsewhere
-        for (int i = 0; i < fieldNames.length; i++) {
-            tempID = getResources().getIdentifier(fieldNames[i],"id",getPackageName());
-
-            tempEdit = (EditText) findViewById(tempID);
-
-            tempEdit.setText(recordData[i]);
-        }
     }
 }

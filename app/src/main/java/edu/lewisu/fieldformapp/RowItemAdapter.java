@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHolder> {
@@ -21,7 +20,6 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
     RowItemAdapter(RowItemData[] rowItemData, ClickListener listener) {
         rowItemList = new ArrayList<>(rowItemData.length);
         Collections.addAll(rowItemList, rowItemData);
-//        this.rowItemData = rowItemData;
         this.listener = listener;
     }
 
@@ -37,12 +35,18 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
-        viewHolder.txtViewID.setText(rowItemList.get(position).getID());
+        viewHolder.txtViewID.setText(String.valueOf(rowItemList.get(position).getID()));
         viewHolder.txtViewFN.setText(rowItemList.get(position).getFName());
         viewHolder.txtViewMN.setText(rowItemList.get(position).getMName());
         viewHolder.txtViewLN.setText(rowItemList.get(position).getLName());
+        if (rowItemList.get(position).getFType() == 'R')
+            viewHolder.txtViewFT.setText("Recruiter Form");
+        else if (rowItemList.get(position).getFType() == 'H')
+            viewHolder.txtViewFT.setText("Healthcare Form");
+        else
+            viewHolder.txtViewFT.setText(String.valueOf(rowItemList.get(position).getFType()));
 
-        viewHolder.posIndex = Integer.parseInt(rowItemList.get(position).getID());
+        viewHolder.posIndex = rowItemList.get(position).getID();
     }
 
     // inner class to hold a reference to each item of RecyclerView
@@ -52,22 +56,24 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
         TextView txtViewFN;
         TextView txtViewMN;
         TextView txtViewLN;
+        TextView txtViewFT;
         AppCompatImageButton btnTEMPNAME;
 
         private WeakReference<ClickListener> listenerRef;
 
         int posIndex;
 
-        ViewHolder(final View itemLayoutView, ClickListener listener) {
-            super(itemLayoutView);
+        ViewHolder(final View view, ClickListener listener) {
+            super(view);
 
             listenerRef = new WeakReference<>(listener);
 
-            txtViewID = (TextView) itemLayoutView.findViewById(R.id.textView);
-            txtViewFN = (TextView) itemLayoutView.findViewById(R.id.textView2);
-            txtViewMN = (TextView) itemLayoutView.findViewById(R.id.textView3);
-            txtViewLN = (TextView) itemLayoutView.findViewById(R.id.textView4);
-            btnTEMPNAME = itemLayoutView.findViewById(R.id.imageButton);
+            txtViewID = (TextView) view.findViewById(R.id.textView);
+            txtViewFN = (TextView) view.findViewById(R.id.textView2);
+            txtViewMN = (TextView) view.findViewById(R.id.textView3);
+            txtViewLN = (TextView) view.findViewById(R.id.textView4);
+            txtViewFT = (TextView) view.findViewById(R.id.textView5);
+            btnTEMPNAME = view.findViewById(R.id.imageButton);
 
             btnTEMPNAME.setOnClickListener(this);
         }
@@ -80,7 +86,6 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
         }
     }
 
-
     // Return the size of your itemsData (invoked by the layout manager)
     @Override
     public int getItemCount() {
@@ -88,18 +93,14 @@ public class RowItemAdapter extends RecyclerView.Adapter<RowItemAdapter.ViewHold
     }
 
     void updateRow(String[] modifiedRecord, int position) {
-        rowItemList.get(position).setFName(modifiedRecord[1]);
-        rowItemList.get(position).setMName(modifiedRecord[2]);
-        rowItemList.get(position).setLName(modifiedRecord[3]);
+        rowItemList.get(position).setFName(modifiedRecord[2]);
+        rowItemList.get(position).setMName(modifiedRecord[3]);
+        rowItemList.get(position).setLName(modifiedRecord[4]);
     }
 
-    int getRowID(int position) { return Integer.parseInt(rowItemList.get(position).getID()); }
+    int getRowID(int position) { return rowItemList.get(position).getID(); }
 
     void removeRow(int position) {
         rowItemList.remove(position);
-    }
-
-    void addRow(RowItemData newRow) {
-        rowItemList.add(newRow);
     }
 }

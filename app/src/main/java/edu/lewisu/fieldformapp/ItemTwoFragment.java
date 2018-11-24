@@ -47,9 +47,6 @@ public class ItemTwoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        // TODO: If deletion has occurred, recreate the forms
-        // TODO add ability to track what type of change has been made.  Delete vs update
-
         // If statement that will only run if user has chosen to review a previous record
         if (openRecordIndex != -1) {
             if (!mainActivity.sql.doesIdExist(openRecordID)) {
@@ -70,11 +67,8 @@ public class ItemTwoFragment extends Fragment {
     }
 
     public void updateRow() {
-        // TODO: validate if row is null
-        // check if exists
-
             String[] rowData = mainActivity.sql.getSingleRecord(openRecordID);
-            String[] rowDataSub = {rowData[0], rowData[1], rowData[2], rowData[3]};
+            String[] rowDataSub = {rowData[0], rowData[1], rowData[2], rowData[3], rowData[4]};
 
             rowItemAdapter.updateRow(rowDataSub, openRecordIndex);
 
@@ -84,15 +78,17 @@ public class ItemTwoFragment extends Fragment {
     public void getRows(View v) {
         String[] rowData = mainActivity.getRowDataString();
 
-        String rowID, rowFN, rowMN, rowLN;
-        String tempID, tempFN, tempMN, tempLN;
+        String rowID, rowFN, rowMN, rowLN, rowFT;
+        String tempID, tempFN, tempMN, tempLN, tempFT;
         // Starting at 1 since the headers automatically take 1 place
-        int numRows = 1;
+        int numRows = 1, tempInt;
+        char tempChar;
 
         rowID = rowData[0];
         rowFN = rowData[1];
         rowMN = rowData[2];
         rowLN = rowData[3];
+        rowFT = rowData[4];
 
         for (int i = 0; i < rowID.length(); i++)
             if (rowData[0].charAt(i) == ',')
@@ -106,11 +102,13 @@ public class ItemTwoFragment extends Fragment {
                 tempFN = rowFN;
                 tempMN = rowMN;
                 tempLN = rowLN;
+                tempFT = rowFT;
             } else { // Creates a substring from the beginning until the first comma
                 tempID = rowID.substring(0, rowID.indexOf(','));
                 tempFN = rowFN.substring(0, rowFN.indexOf(','));
                 tempMN = rowMN.substring(0, rowMN.indexOf(','));
                 tempLN = rowLN.substring(0, rowLN.indexOf(','));
+                tempFT = rowFT.substring(0, rowFT.indexOf(','));
             }
 
 
@@ -120,11 +118,14 @@ public class ItemTwoFragment extends Fragment {
                 rowFN = rowFN.substring(rowFN.indexOf(',') + 1);
                 rowMN = rowMN.substring(rowMN.indexOf(',') + 1);
                 rowLN = rowLN.substring(rowLN.indexOf(',') + 1);
+                rowFT = rowFT.substring(rowFT.indexOf(',') + 1);
             }
 
             // Creates a new RowItemData for all iterations except the first (which is null/blank)
             if (i != 0) {
-                rowItems[i - 1] = new RowItemData(tempID, tempFN, tempMN, tempLN);
+                tempInt = Integer.parseInt(tempID);
+                tempChar = tempFT.charAt(0);
+                rowItems[i - 1] = new RowItemData(tempInt, tempFN, tempMN, tempLN, tempChar);
             }
         }
 
@@ -135,23 +136,20 @@ public class ItemTwoFragment extends Fragment {
 
                 int rowIndex = rowItemAdapter.getRowID(position);
 
+//                mainActivity.sql.open();
                 String[] tempStringArr = mainActivity.sql.getSingleRecord(rowIndex);
+//                mainActivity.sql.close();
 
                 openRecordID = Integer.parseInt(tempStringArr[0]);
                 openRecordIndex = position;
                 Intent intent = new Intent(getActivity(), FormDefault.class);
                 intent.putExtra("Record Data", tempStringArr);
-                // get record ID
-
-
-                intent.putExtra("Record ID",  openRecordID);
+                intent.putExtra("Form Type",  tempStringArr[1].charAt(0));
                 startActivity(intent);
             }
             @Override public void onLongClicked(int position) {
                 // callback performed on click
             }
         });
-
     }
-
 }

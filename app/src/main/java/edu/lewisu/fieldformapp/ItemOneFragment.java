@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -49,6 +50,10 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_item_one, container, false);
         FloatingActionButton createForm = (FloatingActionButton) v.findViewById(R.id.add_form);
+        Button button3 = v.findViewById(R.id.button3);
+        Button button4 = v.findViewById(R.id.button4);
+        button3.setOnClickListener(this);
+        button4.setOnClickListener(this);
         createForm.setOnClickListener(this);
 
         return v;
@@ -57,67 +62,22 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
     // Handle Button Presses
     @Override
     public void onClick(View v) {
-//        Intent intent;
+        Intent intent = new Intent(getActivity(), FormDefault.class);
 
         switch (v.getId()) {
             case R.id.add_form:
-                Intent intent = new Intent(getActivity(), FormDefault.class);
-                startActivity(intent);
+                // No changes made to intent
                 break;
             case R.id.button3:
-                intent = new Intent(getActivity(), FormDefault.class);
-
-                intent.putExtra("Form Type", "R");
-                startActivity(intent);
+                // Will adjust form to Recruiter
+                intent.putExtra("Form Type", 'R');
                 break;
             case R.id.button4:
-                intent = new Intent(getActivity(), FormDefault.class);
-
-                intent.putExtra("Form Type", "H");
-                startActivity(intent);
+                // Will adjust form to Healthcare
+                intent.putExtra("Form Type", 'H');
                 break;
         }
+
+        startActivity(intent);
     }
 }
-
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-//
-//
-//@Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
-//
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-//
-//    /**
-//     * This interface must be implemented by activities that contain this
-//     * fragment to allow an interaction in this fragment to be communicated
-//     * to the activity and potentially other fragments contained in that
-//     * activity.
-//     * <p>
-//     * See the Android Training lesson <a href=
-//     * "http://developer.android.com/training/basics/fragments/communicating.html"
-//     * >Communicating with Other Fragments</a> for more information.
-//     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
-//}

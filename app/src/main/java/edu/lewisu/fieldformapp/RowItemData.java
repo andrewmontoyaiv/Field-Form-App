@@ -1,23 +1,23 @@
 package edu.lewisu.fieldformapp;
 
-import android.view.View;
-
 public class RowItemData {
 
-    private String rowID;
+    private int rowID;
     private String rowFN;
     private String rowMN;
     private String rowLN;
+    private char rowFT;
 
-    public RowItemData(String tempID, String tempFN, String tempMN, String tempLN) {
+    public RowItemData(int tempID, String tempFN, String tempMN, String tempLN, char tempFT) {
         rowID = tempID;
         rowFN = tempFN;
         rowMN = tempMN;
         rowLN = tempLN;
+        rowFT = tempFT;
     }
 
     // TODO Getters & Setters
-    public String getID(){
+    public int getID(){
         return rowID;
     }
     public String getFName(){
@@ -29,6 +29,9 @@ public class RowItemData {
     public String getLName(){
         return rowLN;
     }
+    public char getFType(){
+        return rowFT;
+    }
 
     // No setter for ID as that cannot be changed manually
     public void setFName(String tempFN) {
@@ -38,7 +41,5 @@ public class RowItemData {
     public void setLName(String tempLN) {
         rowLN = tempLN;
     }
-
-    public void test(View v) {}
 }
 
