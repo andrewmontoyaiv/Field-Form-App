@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class ItemTwoFragment extends Fragment {
+
+
     private static MainActivity mainActivity;
     private RecyclerView rvFrag2;
     public RowItemAdapter rowItemAdapter;
@@ -77,6 +79,7 @@ public class ItemTwoFragment extends Fragment {
 
     public void getRows(View v) {
         String[] rowData = mainActivity.getRowDataString();
+
 
         String rowID, rowFN, rowMN, rowLN, rowFT;
         String tempID, tempFN, tempMN, tempLN, tempFT;

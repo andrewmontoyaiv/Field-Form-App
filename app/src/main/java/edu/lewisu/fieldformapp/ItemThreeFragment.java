@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 public class ItemThreeFragment extends Fragment {
     private static MainActivity mainActivity;
 
+
+
     public static ItemThreeFragment newInstance(MainActivity activity) {
         ItemThreeFragment fragment = new ItemThreeFragment();
 
@@ -21,6 +23,8 @@ public class ItemThreeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        this.getContext();
+
+
     }
 
     @Override
