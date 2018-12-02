@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -116,9 +117,17 @@ public class MainActivity extends SQLHandler {
         }
         sql.export();
 
+        Toast.makeText(MainActivity.this, "Database exported to: storge->self->primary->exporteddatabase.csv", Toast.LENGTH_SHORT).show();
 
+        sql.close();
+    }
+
+    public void exportEmail(View v) {
         File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "exportedDatabase.csv");
-        Uri path = Uri.fromFile(filelocation);
+
+        Uri path = FileProvider.getUriForFile(MainActivity.this,
+                BuildConfig.APPLICATION_ID + ".provider",
+                filelocation);
 
 
         Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -126,25 +135,21 @@ public class MainActivity extends SQLHandler {
         sendIntent.setType("text/plain");
         sendIntent .putExtra(Intent.EXTRA_STREAM, path);
         sendIntent.putExtra(Intent.EXTRA_SUBJECT,"CSV Export");
-// TODO: Email does not work.
-//
-//        if (path != null) {
-//            try{
-//                startActivity(Intent.createChooser(sendIntent, "Send Mail"));
-//            }
-//            catch(android.content.ActivityNotFoundException ex){
-//                Toast.makeText(MainActivity.this, "No email client is installed.", Toast.LENGTH_SHORT).show();
-//            }
-//        }
 
-
-
-
-
-//        startActivity(sendIntent);
-
-        sql.close();
+        if (path != null) {
+            try{
+                startActivity(Intent.createChooser(sendIntent, "Send Mail"));
+            }
+            catch(android.content.ActivityNotFoundException ex){
+                Toast.makeText(MainActivity.this, "No email client is installed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(MainActivity.this, "Database has not been exported yet...", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 
     // Displays all SQL records stored in the table
     public void view(View v)
