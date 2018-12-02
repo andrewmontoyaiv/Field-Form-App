@@ -1,15 +1,24 @@
 package edu.lewisu.fieldformapp;
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class MainActivity extends SQLHandler {
 
@@ -18,6 +27,9 @@ public class MainActivity extends SQLHandler {
 //    ItemThreeFragment itemThreeFrag;
 
     SQLDatabase sql;
+
+    private static final String LOG_TAG_EXTERNAL_STORAGE = "EXTERNAL_STORAGE";
+    private static final int REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1;
 
 
     @Override
@@ -90,6 +102,47 @@ public class MainActivity extends SQLHandler {
         for (int i = 0; i < 25; i++)
             if (sql.doesIdExist(i))
                 sql.deleteRecord(i);
+        sql.close();
+    }
+
+    public void exportData(View v)
+    {
+        sql.open();
+
+        int writeExternalStoragePermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(writeExternalStoragePermission!= PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION);
+        }
+        sql.export();
+
+
+        File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "exportedDatabase.csv");
+        Uri path = Uri.fromFile(filelocation);
+
+
+        Intent sendIntent = new Intent(Intent.ACTION_SEND);
+        sendIntent.setData(Uri.parse("mailto:"));
+        sendIntent.setType("text/plain");
+        sendIntent .putExtra(Intent.EXTRA_STREAM, path);
+        sendIntent.putExtra(Intent.EXTRA_SUBJECT,"CSV Export");
+// TODO: Email does not work.
+//
+//        if (path != null) {
+//            try{
+//                startActivity(Intent.createChooser(sendIntent, "Send Mail"));
+//            }
+//            catch(android.content.ActivityNotFoundException ex){
+//                Toast.makeText(MainActivity.this, "No email client is installed.", Toast.LENGTH_SHORT).show();
+//            }
+//        }
+
+
+
+
+
+//        startActivity(sendIntent);
+
         sql.close();
     }
 

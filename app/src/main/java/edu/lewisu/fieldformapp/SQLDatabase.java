@@ -1,15 +1,30 @@
 package edu.lewisu.fieldformapp;
 
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-public class SQLDatabase {
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class SQLDatabase extends AppCompatActivity {
     private String database="db";
     String table="user";
     private int version=1;
@@ -80,6 +95,75 @@ public class SQLDatabase {
     void close()
     {
         s.close();
+    }
+
+void export() {
+            Log.i("Exporting","...");
+            h = new helper(c);
+            s = h.getReadableDatabase();
+            Cursor c = null;
+
+            File sdCardDir = null;
+
+
+
+            try {
+
+                c = s.rawQuery("select * from user", null);
+                int rowcount = 0;
+                int colmncount = 0;
+                sdCardDir = Environment.getExternalStorageDirectory();
+                String filename = "exportedDatabase.csv";
+                File saveFile = new File(sdCardDir.getAbsolutePath(), filename);
+                FileWriter fw = new FileWriter(saveFile);
+
+
+                BufferedWriter bw = new BufferedWriter(fw);
+                rowcount = c.getCount();
+                colmncount = c.getColumnCount();
+                if (rowcount > 0) {
+                    c.moveToFirst();
+
+                    for (int i = 0; i < colmncount; i++) {
+                        if (i != colmncount - 1) {
+                            bw.write(c.getColumnName(i) + ",");
+                        } else {
+                            bw.write(c.getColumnName(i));
+                        }
+                    }
+
+                    bw.newLine();
+
+                    for (int i = 0; i < rowcount; i++) {
+                        c.moveToPosition(i);
+
+                        for (int j = 0; j < colmncount; j++) {
+                            if (j != colmncount - 1)
+                                bw.write(c.getString(j) + ",");
+                            else
+                                bw.write(c.getString(j));
+                        }
+                        bw.newLine();
+                    }
+                    bw.flush();
+
+
+                }
+            } catch (Exception ex) {
+                Log.e("ERROR", ex.getMessage());
+                if (s.isOpen()) {
+                    s.close();
+                }
+            } finally {
+                s.close();
+            }
+
+
+
+
+
+
+
     }
 
     // TODO Modify to accept a String array rather than 24 strings

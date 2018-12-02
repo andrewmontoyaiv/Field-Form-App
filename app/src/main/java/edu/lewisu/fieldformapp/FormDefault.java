@@ -96,7 +96,6 @@ public class FormDefault extends SQLHandler {
         btnEdit = findViewById(R.id.btnEdit);
         btnUpdate = findViewById(R.id.btnUpdate);
         btnDelete = findViewById(R.id.btnDelete);
-        btnExport = findViewById(R.id.btnExport);
 
         // Hides buttons and textview that should not be used by users at this time
         currID.setVisibility(View.GONE);
@@ -121,63 +120,7 @@ public class FormDefault extends SQLHandler {
 
         setFormType(newFormType);
 
-        btnExport = (Button)findViewById(R.id.btnExport);
-        btnExport.setOnClickListener(new View.OnClickListener() {
-            SQLHandler sqlhandlr = controller.getReadableDatabase();
-            Cursor c = null;
 
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    c = sqlhandlr.rawQuery("select * from places", null);
-                    int rowcount = 0;
-                    int colmncount = 0;
-                    File sdCardDir = Environment.getExternalStorageDirectory();
-                    String filename = "exportedDatabase.csv";
-                    File saveFile = new File(sdCardDir, filename);
-                    FileWriter fw = new FileWriter(saveFile);
-
-                    BufferedWriter bw = new BufferedWriter(fw);
-                    rowcount = c.getCount();
-                    colmncount = c.getColumnCount();
-                    if (rowcount > 0) {
-                        c.moveToFirst();
-
-                        for (int i = 0; i < colmncount; i++) {
-                            if (i != colmncount - 1) {
-                                bw.write(c.getColumnName(i) + ",");
-                            } else {
-                                bw.write(c.getColumnName(i));
-                            }
-                        }
-
-                        bw.newLine();
-
-                        for (int i = 0; i < rowcount; i++) {
-                            c.moveToPosition(i);
-
-                            for (int j = 0; j < colmncount; j++) {
-                                if (j != colmncount - 1)
-                                    bw.write(c.getString(j) + ",");
-                                else
-                                    bw.write(c.getString(j));
-                            }
-                            bw.newLine();
-                        }
-                        bw.flush();
-                        infotext.setText("Exported Successfully!");
-                    }
-                } catch (Exception ex) {
-                    if (sqlhandlr.isOpen()) {
-                        sqlhandlr.close();
-                        infotext.setText(ex.getMessage().toString());
-                    }
-                } finally {
-
-                }
-            }
-        });
     }
 
     // Used to hide fields that are not used for the chosen form type
