@@ -1,22 +1,16 @@
 package edu.lewisu.fieldformapp;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.database.Cursor;
-import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 
-import java.io.BufferedWriter;
-
 public class FormDefault extends SQLHandler {
-    Button btnSubmit, btnEdit, btnUpdate, btnDelete, btnExport;
+    Button btnSubmit, btnEdit, btnUpdate, btnDelete;
     char newFormType;
     ArrayList<View> touchables;
 
@@ -39,8 +33,6 @@ public class FormDefault extends SQLHandler {
 
         // Demographic
         dateOfBirth= findViewById(R.id.dob);
-//        gender = findViewById(R.id.gender);
-//        ethnicity = findViewById(R.id.ethnicity);
         ssnum = findViewById(R.id.ssnum);
 
         // Contact
@@ -68,8 +60,6 @@ public class FormDefault extends SQLHandler {
         dietaryRestriction = findViewById(R.id.dietaryRestriction);
         illnessHistory = findViewById(R.id.illnessHistory);
         drugHistory = findViewById(R.id.drugHistory);
-
-//        consent = findViewById(R.id.consent);
 
         // Gender selection
         genderRadioGroup = findViewById(R.id.genderRadioGroup);
@@ -151,7 +141,7 @@ public class FormDefault extends SQLHandler {
 
     // Disables all fields so they cannot be modified
     void disableAllFields() {
-        LinearLayout formLinearLayout = (LinearLayout) findViewById(R.id.formLinearLayout);
+        LinearLayout formLinearLayout = findViewById(R.id.formLinearLayout);
 
         // Save all touchable IDs to allow for simpler re-enabling
         touchables = formLinearLayout.getTouchables();

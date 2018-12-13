@@ -110,8 +110,6 @@ void export() {
             try {
 
                 c = s.rawQuery("select * from user", null);
-                int rowcount = 0;
-                int colmncount = 0;
                 sdCardDir = Environment.getExternalStorageDirectory();
                 String filename = "exportedDatabase.csv";
                 File saveFile = new File(sdCardDir.getAbsolutePath(), filename);
@@ -119,8 +117,8 @@ void export() {
 
 
                 BufferedWriter bw = new BufferedWriter(fw);
-                rowcount = c.getCount();
-                colmncount = c.getColumnCount();
+                int rowcount = c.getCount();
+                int colmncount = c.getColumnCount();
                 if (rowcount > 0) {
                     c.moveToFirst();
 

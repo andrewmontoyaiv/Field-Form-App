@@ -62,8 +62,6 @@ public class SQLHandler extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sql = new SQLDatabase(this);
-
-//        recordChange = 'N';
     }
 
 
@@ -157,7 +155,6 @@ public class SQLHandler extends AppCompatActivity {
         return currRecord;
     }
 
-    //TODO The validation methods do work, but need to confirm field names are spelled correctly
     // Validation method that will highlight any and all invalid fields.
     Boolean validateFields(String[] recordFields) { //, String[] fieldNames) {
         Boolean allPass = true;
@@ -172,31 +169,18 @@ public class SQLHandler extends AppCompatActivity {
             // Is field blank, AND is field used in this form type
             if (recordFields[i].equals("") &&
                     ((requiredFields[i] == 'B') || (requiredFields[i] == recordFields[1].charAt(0)))) {
-                // TODO fix the comparisons to work with a char
                 tempType = String.valueOf(fieldTypes[i]);
                 tempName = fieldNames[i];
 
-//                    tempType = fieldNames[i].substring(0,1);
-//                    tempName = fieldNames[i].substring(1);
-                tempID = getResources().getIdentifier(tempName,"id",getPackageName());
+//                tempID = getResources().getIdentifier(tempName,"id",getPackageName());
 
-//                if (tempType.equals('T')) {
+                // Validation for Text Boxes
                 if ("T".equals(tempType)) {
                     // Error must be set on the TextInputLayout, not the nested EditText
                     tempName += "Layout";
                     tempID = getResources().getIdentifier(tempName,"id",getPackageName());
                     tempTextInputLayout = (TextInputLayout) findViewById(tempID);
                     tempTextInputLayout.setError("This field cannot be blank");
-
-//                    tempEditText = (EditText) findViewById(tempID);
-//
-//                    tempEditText.setError("This field cannot be blank");
-                } else if (tempType.equals('R')) {
-                    // Validation for the radio buttons are written below
-                    // This if should never be reached
-                } else if (tempType.equals('C')) {
-                    // TODO Define how validation will work for checkboxes, if needed
-                    // Validation for the consent checkbox is written below
                 }
 
                 allPass = false;

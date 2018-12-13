@@ -264,20 +264,6 @@
                     android:text="@string/rdbtn_gender_female" />
             </RadioGroup>
 
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/genderLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--<android.support.design.widget.TextInputEditText-->
-                    <!--android:id="@+id/gender"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="@string/txt_hint_gender"-->
-                    <!--android:inputType="text"-->
-                    <!--android:singleLine="true" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
-
             <TextView
                 android:id="@+id/lbl_ethnicity"
                 android:layout_width="match_parent"
@@ -321,19 +307,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/chk_ethnicity_hispanic" />
 
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/ethnicityLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--<android.support.design.widget.TextInputEditText-->
-                    <!--android:id="@+id/ethnicity"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="@string/txt_hint_ethnicity"-->
-                    <!--android:inputType="text"-->
-                    <!--android:singleLine="true" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
 
 
             <!-- High School -->
@@ -559,20 +532,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/txt_hint_consent"
                 tools:text="@string/txt_hint_consent" />
-
-            <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/consentLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--<android.support.design.widget.TextInputEditText-->
-                    <!--android:id="@+id/consent"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:hint="@string/txt_hint_consent"-->
-                    <!--android:inputType="text"-->
-                    <!--android:singleLine="true" />-->
-            <!--</android.support.design.widget.TextInputLayout>-->
 
             <Button
                 android:id="@+id/btnSubmit"
