@@ -49,12 +49,12 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_item_one, container, false);
-        FloatingActionButton createForm = (FloatingActionButton) v.findViewById(R.id.add_form);
+//        FloatingActionButton createForm = (FloatingActionButton) v.findViewById(R.id.add_form);
         Button button3 = v.findViewById(R.id.button3);
         Button button4 = v.findViewById(R.id.button4);
         button3.setOnClickListener(this);
         button4.setOnClickListener(this);
-        createForm.setOnClickListener(this);
+//        createForm.setOnClickListener(this);
 
         return v;
     }
@@ -65,9 +65,9 @@ public class ItemOneFragment extends Fragment implements View.OnClickListener{
         Intent intent = new Intent(getActivity(), FormDefault.class);
 
         switch (v.getId()) {
-            case R.id.add_form:
-                // No changes made to intent
-                break;
+//            case R.id.add_form:
+//                // No changes made to intent
+//                break;
             case R.id.button3:
                 // Will adjust form to Recruiter
                 intent.putExtra("Form Type", 'R');
