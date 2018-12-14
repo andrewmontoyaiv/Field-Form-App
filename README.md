@@ -9,7 +9,7 @@ Can also be used for general-purpose survey research.
 - Android Studio provides support for Windows, Mac OS X, and Linux platforms.
 
 ### Installing
-1. Install the latest version of [Android Studios](https://developer.android.com/studio/).
+1. Install the latest version of [Android Studio](https://developer.android.com/studio/).
 note: When prompted, make sure to download HAXM (alllows for the emulation to run).
 
 ## Deployment
@@ -25,17 +25,17 @@ git clone https://github.com/CAPSTONE-2018/field-form-app.git
 3. Move file to the intended directory and unzip it.
 
 ### Initializing the project
-The project is now ready for development. In Android Studios, proceed to open up an existing project and navigate to the directory that this repository was downloaded to.
+The project is now ready for development. In Android Studio, proceed to open up an existing project and navigate to the directory that this repository was downloaded to.
 
 ### Installing the emulator
-Select **SDK Manager** under the **SDK Tools** dropdown. Follow the prompts to create a new virtual device. Now, when compiling, you will are able to target an emulator.
+Select **SDK Manager** under the **SDK Tools** dropdown. Follow the prompts to create a new virtual device. Now, when compiling, you will need to target an emulator.
 
 ### Compiling
-Press the **compile** button and select the newly created emulator. The emulator should now run the project.
+Press the **compile** button (green start button) and select the newly created emulator. The emulator should now run the project.
 
 
 ## Built With
-- [Android Studios (Java)](https://developer.android.com/studio/)
+- [Android Studio (Java)](https://developer.android.com/studio/)
 - [SQLite](https://www.sqlite.org/index.html)
 - [Draw.IO](https://www.draw.io/)
 - [Balsamiq](https://balsamiq.com/)
