@@ -1,5 +1,5 @@
 # Field Form Application
-- A generic form app, developed for android, that allows college recruiters to electronically register attendees at their events. 
+- A generic form app, developed for android, that allows college recruiters and healthcare professionals to electronically register attendees at their events. 
 Can also be used for general-purpose survey research.
 - Compatible with Android version 9.0.
 
